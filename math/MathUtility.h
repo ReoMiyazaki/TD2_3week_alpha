@@ -73,4 +73,6 @@ float Lerp(float a, float b, float t);
 
 float Random(float min, float max);
 
+double EaseOut(double x);
+
 } // namespace MathUtility
