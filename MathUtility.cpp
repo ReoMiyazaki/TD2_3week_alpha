@@ -1,9 +1,9 @@
 #include"MathUtility.h"
 #include<random>
 using namespace std;
-using namespace MathUtility;
+//using namespace MathUtility;
 
-float Random(float min, float max) {
+float MathUtility::Random(float min, float max) {
 	float min_, max_;
 	if (min > max) {
 		min_ = max;
@@ -23,6 +23,6 @@ float Random(float min, float max) {
 	return rotDist(engine);
 }
 
-double EaseOut(double x) {
-	return sin(x * PI / 2);
+double MathUtility::EaseOut(double x) {
+	return sin(x * MathUtility::PI / 2);
 }

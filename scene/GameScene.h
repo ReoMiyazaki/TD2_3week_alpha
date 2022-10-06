@@ -54,6 +54,8 @@ class GameScene {
 	Player* player_ = nullptr;
 
 	WorldTransform daruma[10];
+
+	WorldTransform randObj[64];
 	
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
@@ -61,6 +63,9 @@ class GameScene {
 	float cameraDistance = 50.0f;
 
 	Vector3 cameraPos;
+	Vector3 cameraPosMemory;
+	uint32_t texture_ = 0;
+	uint32_t whiteTexture_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用

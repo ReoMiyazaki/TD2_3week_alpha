@@ -56,6 +56,16 @@ void Player::Update(float moveCircleRadius)
 		}
 
 	}
+	//else if (state == PlayerState::Charge) {
+	//	//チャージステート中はジャンプ力を溜めながら横に回転
+	//	if (jumpPower <= 5.5f)// 制限
+	//	{
+	//		jumpPower += 0.1f;
+	//	}
+	//	else if (jumpPower > 5.5f)// 強制ジャンプ
+	//	{
+	//		state = PlayerState::Jump;
+	//	}
 
 	// playerチャージ処理
 	else if (state == PlayerState::Charge)
