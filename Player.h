@@ -53,6 +53,9 @@ private:
 	Vector3 rotation;
 	Vector3 playerPosition;
 	Vector3 afterPos;
+	Vector3 dashSpeed;
+
+	int dashTime = 50;
 
 	float kMoveSpeed = 4.0f;
 

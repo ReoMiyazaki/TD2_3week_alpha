@@ -81,6 +81,13 @@ Vector3& Vector3::operator/=(float s)
 	return *this;
 }
 
+bool Vector3::operator==(const Vector3 v)
+{
+	
+
+	return (x == v.x)&&(y == v.y)&&(z == v.z);
+}
+
 // 2項演算子オーバーロード
 // ※いろんな引数のパターンに対応するため、以下のように準備している
 const Vector3 operator+(const Vector3& v1, const Vector3& v2)
