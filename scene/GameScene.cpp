@@ -33,7 +33,21 @@ void GameScene::Initialize() {
 		daruma[i].MatUpdate();
 
 	}
-	//viewProjection_.UpdateMatrix();
+
+	for (int i = 0; i < 64; i++) {
+		randObj[i].Initialize();
+		Vector3 pos;
+		pos.x = Random(-50.0f, 50.0f);
+		pos.y = Random(-50.0f, 50.0f);
+		pos.z = Random(-50.0f, 50.0f);
+		randObj[i].translation_ = pos;
+		pos.x = Random(0.0f,360.0f);
+		pos.y = Random(0.0f,360.0f);
+		pos.z = Random(0.0f,360.0f);
+		randObj[i].rotation_ = pos;
+		randObj[i].scale_ = { 0.1f,0.1f,0.1f };
+		randObj[i].MatUpdate();
+	}
 
 	//カメラ座標を自機の角度を使って計算
 	float cameraRad = player_->GetRadian() + 45.0f;
@@ -42,6 +56,9 @@ void GameScene::Initialize() {
 	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
 	viewProjection_.eye =cameraPos;
 	viewProjection_.Initialize();
+
+	texture_ = TextureManager::Load("mario.jpg");
+	whiteTexture_ = TextureManager::Load("white1x1.png");
 
 }
 
@@ -94,7 +111,11 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 
 	for (int i = 0; i < 10; i++) {
-		model_->Draw(daruma[i], viewProjection_);
+		model_->Draw(daruma[i], viewProjection_,texture_);
+	}
+
+	for (int i = 0; i < 64; i++) {
+		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
 	}
 
 	// 3Dオブジェクト描画後処理
