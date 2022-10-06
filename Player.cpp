@@ -57,7 +57,14 @@ void Player::Update(float moveCircleRadius)
 	}
 	else if (state == PlayerState::Charge) {
 		//チャージステート中はジャンプ力を溜めながら横に回転
-		jumpPower += 0.1f;
+		if (jumpPower <= 5.5f)// 制限
+		{
+			jumpPower += 0.1f;
+		}
+		else if (jumpPower > 5.5f)// 強制ジャンプ
+		{
+			state = PlayerState::Jump;
+		}
 		player_.rotation_.y += jumpPower / 10.0f;
 
 		//スペースキーが離されたらジャンプ状態に移行
