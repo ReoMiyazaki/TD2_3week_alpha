@@ -48,7 +48,7 @@ class GameScene {
 	DebugText* debugText_ = nullptr;
 
 
-	int test
+	int test = 0;
 
 	/// <summary>
 	/// ゲームシーン用
