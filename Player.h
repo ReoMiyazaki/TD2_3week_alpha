@@ -8,15 +8,9 @@
 
 enum class PlayerState {
 	Idle,
-Charge,
+	Charge,
 	Jump,
-};
-
-enum movePattern
-{
-	revolution,
-	jump,
-	dash,
+	dash
 };
 
 class Player
@@ -39,6 +33,10 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewProjection_);
 	float GetRadian()const { return playerRad; }
+
+	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	Vector3 GetWorldPosition();
+
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
@@ -50,8 +48,12 @@ private:
 
 	float jumpPower;
 	PlayerState state = PlayerState::Idle;
-	int moveType;
 
+	Vector3 movePos;
+	Vector3 rotation;
+	Vector3 afterPos;
+
+	float kMoveSpeed = 4.0f;
 
 };
 

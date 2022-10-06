@@ -1,4 +1,5 @@
 #include "Player.h"
+
 using namespace MathUtility;
 
 void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
@@ -11,7 +12,7 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 	player_.Initialize();
 	playerRad = 0;
 
-	//プレイヤーの行動円
+	// プレイヤーの行動円
 	for (int i = 0; i < 64; i++)
 	{
 		playerMoveLine[i].Initialize();
@@ -30,14 +31,13 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 
 void Player::Update(float moveCircleRadius)
 {
-	//ステートがアイドルなら
-	if (state == PlayerState::Idle) {
-
-		//プレイヤーが原点を中心に回転
+	// ステートがアイドルなら
+	if (state == PlayerState::Idle)
+	{
+		// プレイヤーが原点を中心に回転
 		playerRad += 2.0f;
 		playerRad = fmodf(playerRad, 360.0f);
-		Vector3 movePos;
-		Vector3 rotation = player_.rotation_;
+		rotation = player_.rotation_;
 		rotation.y += playerRad;
 		player_.rotation_.y = playerRad * PI / 180.0f;
 		player_.rotation_.z -= 0.25f;
@@ -46,35 +46,77 @@ void Player::Update(float moveCircleRadius)
 		movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
 		movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
 		player_.translation_ = movePos;
-		
 
-		//スペースキーのトリガーでチャージ状態に移行
-		if (input_->TriggerKey(DIK_SPACE)) {
+		// スペースキーのトリガーでチャージ状態に移行
+		if (input_->TriggerKey(DIK_SPACE))
+		{
 			state = PlayerState::Charge;
 			player_.rotation_.z = 0.0f;
-			
+
 		}
+
 	}
-	else if (state == PlayerState::Charge) {
-		//チャージステート中はジャンプ力を溜めながら横に回転
+
+	// playerチャージ処理
+	else if (state == PlayerState::Charge)
+	{
+		// チャージステート中はジャンプ力を溜めながら横に回転
 		jumpPower += 0.1f;
 		player_.rotation_.y += jumpPower / 10.0f;
 
-		//スペースキーが離されたらジャンプ状態に移行
+		// スペースキーが離されたらジャンプ状態に移行
 		if (!input_->PushKey(DIK_SPACE)) {
 			state = PlayerState::Jump;
 		}
 	}
-	else if (state == PlayerState::Jump) {
-		//チャージされたジャンプ力でジャンプ
+
+	// playerジャンプ処理
+	else if (state == PlayerState::Jump)
+	{
+		// チャージされたジャンプ力でジャンプ
 		player_.translation_.y += jumpPower;
 		jumpPower--;
-		//高さが0以下になったらアイドルに戻る
+		// 高さが0以下になったらアイドルに戻る
 		if (player_.translation_.y <= 0) {
 			player_.translation_.y = 0;
 			jumpPower = 0;
 			state = PlayerState::Idle;
 		}
+		// トリガーでダッシュ移動
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			state = PlayerState::dash;
+			player_.rotation_.z = 0.0f;
+			afterPos.x = sin(PI / 180 * (180 + playerRad)) * moveCircleRadius;
+			afterPos.y = player_.translation_.y;
+			afterPos.z = cos(PI / 180 * (180 + playerRad)) * moveCircleRadius;
+		}
+	}
+
+	// playerダッシュ処理
+	else if (state == PlayerState::dash)
+	{
+		Vector3 playerPosition = GetWorldPosition();
+		Vector3 distance(0, 0, 0);
+
+		distance.x = afterPos.x - playerPosition.x;
+		distance.z = afterPos.z - playerPosition.z;
+
+		Vector3Length(distance);
+		Vector3Normalize(distance);
+
+		distance *= kMoveSpeed;
+
+		player_.translation_ += distance;
+
+		if (player_.translation_.x == afterPos.x && player_.translation_.z == afterPos.z) {
+			player_.translation_.y--;
+		}
+		if (player_.translation_.y <= 0) {
+			jumpPower = 0.0f;
+			state = PlayerState::Idle;
+		}
+
 	}
 
 
@@ -90,10 +132,23 @@ void Player::Draw(ViewProjection viewProjection_)
 	{
 		model_->Draw(playerMoveLine[i], viewProjection_);
 	}
-	//デバッグフォント
+	// デバッグフォント
 	debugText_->Printf("playerRad:%f", playerRad);
-	debugText_->SetPos(50,70);
+	debugText_->SetPos(50, 70);
 	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
 	debugText_->SetPos(50, 90);
 	debugText_->Printf("jumpPower:%f", jumpPower);
+}
+
+Vector3 Player::GetWorldPosition()
+{
+	//ワールド座標を入れるための変数
+	Vector3 worldPos;
+
+	//ワールド行列の平行移動成分を取得
+	worldPos.x = player_.matWorld_.m[3][0];
+	worldPos.y = player_.matWorld_.m[3][1];
+	worldPos.z = player_.matWorld_.m[3][2];
+
+	return worldPos;
 }
