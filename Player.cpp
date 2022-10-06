@@ -86,17 +86,17 @@ void Player::Update(float moveCircleRadius)
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			state = PlayerState::dash;
-			player_.rotation_.z = 0.0f;
+			player_.rotation_.y = 0.0f;
 			afterPos.x = sin(PI / 180 * (180 + playerRad)) * moveCircleRadius;
 			afterPos.y = player_.translation_.y;
 			afterPos.z = cos(PI / 180 * (180 + playerRad)) * moveCircleRadius;
+			playerPosition = GetWorldPosition();
 		}
 	}
 
 	// playerƒ_ƒbƒVƒ…ˆ—
 	else if (state == PlayerState::dash)
 	{
-		Vector3 playerPosition = GetWorldPosition();
 		Vector3 distance(0, 0, 0);
 
 		distance.x = afterPos.x - playerPosition.x;
@@ -107,13 +107,21 @@ void Player::Update(float moveCircleRadius)
 
 		distance *= kMoveSpeed;
 
-		player_.translation_ += distance;
+		player_.translation_.x += distance.x;
+		player_.translation_.y += distance.y;
 
-		if (player_.translation_.x == afterPos.x && player_.translation_.z == afterPos.z) {
+		if (player_.translation_.x >= afterPos.x && player_.translation_.z >= afterPos.z ||
+			player_.translation_.x >= afterPos.x && afterPos.z >= player_.translation_.z ||
+			afterPos.x >= player_.translation_.x && player_.translation_.z >= afterPos.z ||
+			afterPos.x >= player_.translation_.x && afterPos.z >= player_.translation_.z) {
+			distance = { 0,0,0 };
+			player_.translation_.x = afterPos.x;
+			player_.translation_.z = afterPos.z;
 			player_.translation_.y--;
 		}
-		if (player_.translation_.y <= 0) {
+		if (player_.translation_.y < 0) {
 			jumpPower = 0.0f;
+			player_.translation_.y = 0;
 			state = PlayerState::Idle;
 		}
 
@@ -138,6 +146,12 @@ void Player::Draw(ViewProjection viewProjection_)
 	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
 	debugText_->SetPos(50, 90);
 	debugText_->Printf("jumpPower:%f", jumpPower);
+	debugText_->SetPos(50, 110);
+	debugText_->Printf("afterPos:(%f,%f,%f)", afterPos.x, afterPos.y, afterPos.z);
+	debugText_->SetPos(50, 130);
+	debugText_->Printf("playerPosition:(%f,%f,%f)", playerPosition.x, playerPosition.y, playerPosition.z);
+	debugText_->SetPos(50, 150);
+	debugText_->Printf("playerTransform:(%f,%f,%f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 }
 
 Vector3 Player::GetWorldPosition()

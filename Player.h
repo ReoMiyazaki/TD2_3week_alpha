@@ -51,6 +51,7 @@ private:
 
 	Vector3 movePos;
 	Vector3 rotation;
+	Vector3 playerPosition;
 	Vector3 afterPos;
 
 	float kMoveSpeed = 4.0f;
