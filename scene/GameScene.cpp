@@ -16,8 +16,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
-	viewProjection_.eye = { 0.0f, 20.0f,-50.0f };
-	viewProjection_.Initialize();
+
 	model_ = Model::Create();
 	player_ = new Player();
 	player_->Initialize(moveCircleRadius,moveCircle);
@@ -36,12 +35,28 @@ void GameScene::Initialize() {
 	}
 	//viewProjection_.UpdateMatrix();
 
+	//カメラ座標を自機の角度を使って計算
+	float cameraRad = player_->GetRadian() + 45.0f;
+	cameraPos.y = 20.0f;
+	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
+	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
+	viewProjection_.eye =cameraPos;
+	viewProjection_.Initialize();
 
 }
 
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
+
+	//カメラの更新
+	float cameraRad = player_->GetRadian() + 30.0f;
+	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
+	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
+	viewProjection_.eye = cameraPos;
+
+	viewProjection_.UpdateMatrix();
+
 
 	//デバッグフォント
 	debugText_->SetPos(50, 50);
@@ -76,7 +91,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	player_->Draw();
+	player_->Draw(viewProjection_);
 
 	for (int i = 0; i < 10; i++) {
 		model_->Draw(daruma[i], viewProjection_);

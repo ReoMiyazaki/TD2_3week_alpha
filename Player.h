@@ -9,11 +9,11 @@ class Player
 public:
 	void Initialize(float moveCircleRadius,Vector2 moveCircle);
 	void Update(float moveCircleRadius);
-	void Draw();
+	void Draw(ViewProjection viewProjection_);
+	float GetRadian()const { return playerRad; }
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
-	ViewProjection viewProjection_;
 	Model* model_ = nullptr;
 	DebugText* debugText_ = nullptr;
 

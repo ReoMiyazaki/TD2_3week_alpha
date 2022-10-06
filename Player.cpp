@@ -7,8 +7,6 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 	model_ = Model::Create();
 
 	player_.Initialize();
-	viewProjection_.eye = { 0.0f, 20.0f,-50.0f };
-	viewProjection_.Initialize();
 	playerRad = 0;
 
 	//プレイヤーの行動円
@@ -37,7 +35,7 @@ void Player::Update(float moveCircleRadius)
 	Vector3 rotation = player_.rotation_;
 	rotation.y += playerRad;
 	player_.rotation_.y = playerRad * PI / 180.0f;
-	player_.rotation_.z += 0.750f;
+	player_.rotation_.z -= 0.25f;
 	player_.rotation_.z = fmodf(player_.rotation_.z, 360.0f);
 
 	movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
@@ -46,7 +44,7 @@ void Player::Update(float moveCircleRadius)
 	player_.MatUpdate();
 }
 
-void Player::Draw()
+void Player::Draw(ViewProjection viewProjection_)
 {
 	model_->Draw(player_, viewProjection_);
 
