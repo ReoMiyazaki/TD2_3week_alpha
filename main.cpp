@@ -7,8 +7,6 @@
 #include "PrimitiveDrawer.h"
 #include "FPS.h"
 
-// この文章は確認用です。新たにリポジトリを作成する場合はこの文章を削除して利用してください。
-
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
