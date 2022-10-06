@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -46,16 +47,14 @@ class GameScene {
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
-
-	WorldTransform player_;
-	float playerRad = 0;
 	ViewProjection viewProjection_;
 
 	Model* model_ = nullptr;
 
-	WorldTransform daruma[10];
+	Player* player_ = nullptr;
 
-	WorldTransform playerMoveLine[64];
+	WorldTransform daruma[10];
+	
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
 

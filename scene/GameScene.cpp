@@ -15,28 +15,11 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
-
-	model_ = Model::Create();
-	player_.Initialize();
-
 	viewProjection_.eye = { 0.0f, 20.0f,-50.0f };
 	viewProjection_.Initialize();
-
-	//プレイヤーの行動円
-	for (int i = 0; i < 64; i++) {
-		playerMoveLine[i].Initialize();
-		float rad = 360.0f / 64.0f * i;
-		moveCircle.x = sin(PI / 180 * rad) * moveCircleRadius;
-		moveCircle.y = cos(PI / 180 * rad) * moveCircleRadius;
-		Vector3 pos;
-		pos.x = moveCircle.x;
-		pos.z = moveCircle.y;
-		pos.y = 0;
-		playerMoveLine[i].translation_ = pos;
-		playerMoveLine[i].scale_ = { 0.1f,0.1f,0.1f };
-		playerMoveLine[i].MatUpdate();
-	
-	}
+	model_ = Model::Create();
+	player_ = new Player();
+	player_->Initialize(moveCircleRadius,moveCircle);
 
 	//乱数
 	random_device seed_gem;
@@ -57,24 +40,11 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-//プレイヤーが原点を中心に回転
-	playerRad += 2.0f;
-	playerRad =fmodf(playerRad, 360.0f);
-	Vector3 movePos;
-	Vector3 rotation = player_.rotation_;
-	rotation.y += playerRad;
-	player_.rotation_.y = playerRad * PI / 180.0f;
-	player_.rotation_.z+= 0.750f;
-	player_.rotation_.z = fmodf(player_.rotation_.z, 360.0f);
-
-	movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
-	movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
-	player_.translation_ = movePos;
-	player_.MatUpdate();
+	player_->Update(moveCircleRadius);
 
 	//デバッグフォント
 	debugText_->SetPos(50, 50);
-	debugText_->Printf("playerRad:%f", playerRad);
+	
 
 }
 
@@ -105,11 +75,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	model_->Draw(player_, viewProjection_);
-
-	for (int i = 0; i < 64; i++) {
-		model_->Draw(playerMoveLine[i], viewProjection_);
-	}
+	player_->Draw();
 
 	for (int i = 0; i < 10; i++) {
 		model_->Draw(daruma[i], viewProjection_);
