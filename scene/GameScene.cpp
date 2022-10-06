@@ -50,9 +50,7 @@ void GameScene::Initialize() {
 		daruma[i].MatUpdate();
 
 	}
-
 	//viewProjection_.UpdateMatrix();
-
 }
 
 void GameScene::Update() {

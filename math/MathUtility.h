@@ -71,4 +71,6 @@ Vector3 operator*(const Vector3& v, const Matrix4& m);
 // 線形補間
 float Lerp(float a, float b, float t);
 
+float Random(float min, float max);
+
 } // namespace MathUtility
