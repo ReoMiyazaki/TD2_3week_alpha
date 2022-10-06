@@ -28,16 +28,14 @@ public:
 	/// </summary>
 	/// <param name="moveCircleRadius"></param>
 	void Update(float moveCircleRadius);
-
 	/// <summary>
 	/// ï`âÊèàóù
 	/// </summary>
-	void Draw();
-
+	void Draw(ViewProjection viewProjection_);
+	float GetRadian()const { return playerRad; }
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
-	ViewProjection viewProjection_;
 	Model* model_ = nullptr;
 	DebugText* debugText_ = nullptr;
 	Input* input_ = nullptr;

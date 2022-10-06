@@ -22,3 +22,7 @@ float Random(float min, float max) {
 
 	return rotDist(engine);
 }
+
+double EaseOut(double x) {
+	return sin(x * PI / 2);
+}

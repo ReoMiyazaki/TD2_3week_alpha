@@ -58,6 +58,10 @@ class GameScene {
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
 
+	float cameraDistance = 50.0f;
+
+	Vector3 cameraPos;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
