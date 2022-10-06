@@ -1,6 +1,7 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+using namespace MathUtility;
 
 GameScene::GameScene() {}
 
@@ -15,10 +16,42 @@ void GameScene::Initialize() {
 
 	model_ = Model::Create();
 	player_.Initialize();
+
+	viewProjection_.eye = { 0.0f, 20.0f,-50.0f };
 	viewProjection_.Initialize();
+
+	for (int i = 0; i < 64; i++) {
+		playerMoveLine[i].Initialize();
+		float rad = 360.0f / 64.0f * i;
+		moveCircle.x = sin(PI / 180 * rad) * moveCircleRadius;
+		moveCircle.y = cos(PI / 180 * rad) * moveCircleRadius;
+		Vector3 pos;
+		pos.x = moveCircle.x;
+		pos.z = moveCircle.y;
+		pos.y = 0;
+		playerMoveLine[i].translation_ = pos;
+		playerMoveLine[i].scale_ = { 0.1f,0.1f,0.1f };
+		playerMoveLine[i].MatUpdate();
+	
+	}
+
+
+	//viewProjection_.UpdateMatrix();
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+
+//プレイヤーが原点を中心に回転
+	playerRad += 2.0f;
+	fmodf(playerRad, 360.0f);
+	Vector3 movePos;
+	movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
+	movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
+	player_.translation_ = movePos;
+	player_.MatUpdate();
+
+}
 
 void GameScene::Draw() {
 
@@ -48,6 +81,10 @@ void GameScene::Draw() {
 	/// </summary>
 
 	model_->Draw(player_, viewProjection_);
+
+	for (int i = 0; i < 64; i++) {
+		model_->Draw(playerMoveLine[i], viewProjection_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

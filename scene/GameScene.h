@@ -48,9 +48,14 @@ class GameScene {
 	DebugText* debugText_ = nullptr;
 
 	WorldTransform player_;
+	float playerRad = 0;
 	ViewProjection viewProjection_;
 
 	Model* model_ = nullptr;
+
+	WorldTransform playerMoveLine[64];
+	Vector2 moveCircle = {};
+	float moveCircleRadius = 20.0f;
 
 	/// <summary>
 	/// ゲームシーン用
