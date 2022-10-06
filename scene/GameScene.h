@@ -49,6 +49,7 @@ class GameScene {
 
 
 	int test = 0;
+	int discordTest = 0;
 
 	/// <summary>
 	/// ゲームシーン用
