@@ -6,12 +6,14 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 	debugText_ = DebugText::GetInstance();
 	input_ = Input::GetInstance();
 	model_ = Model::Create();
+	input_ = Input::GetInstance();
 
 	player_.Initialize();
 	playerRad = 0;
 
 	//プレイヤーの行動円
-	for (int i = 0; i < 64; i++) {
+	for (int i = 0; i < 64; i++)
+	{
 		playerMoveLine[i].Initialize();
 		float rad = 360.0f / 64.0f * i;
 		moveCircle.x = sin(PI / 180 * rad) * moveCircleRadius;
@@ -23,7 +25,6 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 		playerMoveLine[i].translation_ = pos;
 		playerMoveLine[i].scale_ = { 0.1f,0.1f,0.1f };
 		playerMoveLine[i].MatUpdate();
-
 	}
 }
 
@@ -85,7 +86,8 @@ void Player::Draw(ViewProjection viewProjection_)
 {
 	model_->Draw(player_, viewProjection_);
 
-	for (int i = 0; i < 64; i++) {
+	for (int i = 0; i < 64; i++)
+	{
 		model_->Draw(playerMoveLine[i], viewProjection_);
 	}
 	//デバッグフォント

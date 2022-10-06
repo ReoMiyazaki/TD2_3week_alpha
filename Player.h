@@ -1,9 +1,10 @@
 #pragma once
+
+#include "Input.h"
 #include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "DebugText.h"
-#include"Input.h"
 
 enum class PlayerState {
 	Idle,
@@ -11,11 +12,31 @@ Charge,
 	Jump,
 };
 
+enum movePattern
+{
+	revolution,
+	jump,
+	dash,
+};
+
 class Player
 {
 public:
-	void Initialize(float moveCircleRadius,Vector2 moveCircle);
+	/// <summary>
+	/// ‰Šú‰»ˆ—
+	/// </summary>
+	/// <param name="moveCircleRadius"></param>
+	/// <param name="moveCircle"></param>
+	void Initialize(float moveCircleRadius, Vector2 moveCircle);
+
+	/// <summary>
+	/// XVˆ—
+	/// </summary>
+	/// <param name="moveCircleRadius"></param>
 	void Update(float moveCircleRadius);
+	/// <summary>
+	/// •`‰æˆ—
+	/// </summary>
 	void Draw(ViewProjection viewProjection_);
 	float GetRadian()const { return playerRad; }
 private:
@@ -29,5 +50,8 @@ private:
 
 	float jumpPower;
 	PlayerState state = PlayerState::Idle;
+	int moveType;
+
+
 };
 
