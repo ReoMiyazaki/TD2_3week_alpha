@@ -12,6 +12,10 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	model_ = Model::Create();
+	player_.Initialize();
+	viewProjection_.Initialize();
 }
 
 void GameScene::Update() {}
@@ -42,6 +46,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	model_->Draw(player_, viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

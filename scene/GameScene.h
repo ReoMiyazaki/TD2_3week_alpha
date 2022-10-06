@@ -47,9 +47,10 @@ class GameScene {
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
+	WorldTransform player_;
+	ViewProjection viewProjection_;
 
-	int test = 0;
-	int discordTest = 0;
+	Model* model_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
