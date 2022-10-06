@@ -3,6 +3,13 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "DebugText.h"
+#include"Input.h"
+
+enum class PlayerState {
+	Idle,
+Charge,
+	Jump,
+};
 
 class Player
 {
@@ -16,9 +23,11 @@ private:
 	WorldTransform playerMoveLine[64];
 	Model* model_ = nullptr;
 	DebugText* debugText_ = nullptr;
+	Input* input_ = nullptr;
 
 	float playerRad;
 
-	
+	float jumpPower;
+	PlayerState state = PlayerState::Idle;
 };
 

@@ -4,6 +4,7 @@ using namespace MathUtility;
 void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 {
 	debugText_ = DebugText::GetInstance();
+	input_ = Input::GetInstance();
 	model_ = Model::Create();
 
 	player_.Initialize();
@@ -28,19 +29,55 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 
 void Player::Update(float moveCircleRadius)
 {
-	//プレイヤーが原点を中心に回転
-	playerRad += 2.0f;
-	playerRad = fmodf(playerRad, 360.0f);
-	Vector3 movePos;
-	Vector3 rotation = player_.rotation_;
-	rotation.y += playerRad;
-	player_.rotation_.y = playerRad * PI / 180.0f;
-	player_.rotation_.z -= 0.25f;
-	player_.rotation_.z = fmodf(player_.rotation_.z, 360.0f);
+	//ステートがアイドルなら
+	if (state == PlayerState::Idle) {
 
-	movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
-	movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
-	player_.translation_ = movePos;
+		//プレイヤーが原点を中心に回転
+		playerRad += 2.0f;
+		playerRad = fmodf(playerRad, 360.0f);
+		Vector3 movePos;
+		Vector3 rotation = player_.rotation_;
+		rotation.y += playerRad;
+		player_.rotation_.y = playerRad * PI / 180.0f;
+		player_.rotation_.z -= 0.25f;
+		player_.rotation_.z = fmodf(player_.rotation_.z, 360.0f);
+
+		movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
+		movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
+		player_.translation_ = movePos;
+		
+
+		//スペースキーのトリガーでチャージ状態に移行
+		if (input_->TriggerKey(DIK_SPACE)) {
+			state = PlayerState::Charge;
+			player_.rotation_.z = 0.0f;
+			
+		}
+	}
+	else if (state == PlayerState::Charge) {
+		//チャージステート中はジャンプ力を溜めながら横に回転
+		jumpPower += 0.1f;
+		player_.rotation_.y += jumpPower / 10.0f;
+
+		//スペースキーが離されたらジャンプ状態に移行
+		if (!input_->PushKey(DIK_SPACE)) {
+			state = PlayerState::Jump;
+		}
+	}
+	else if (state == PlayerState::Jump) {
+		//チャージされたジャンプ力でジャンプ
+		player_.translation_.y += jumpPower;
+		jumpPower--;
+		//高さが0以下になったらアイドルに戻る
+		if (player_.translation_.y <= 0) {
+			player_.translation_.y = 0;
+			jumpPower = 0;
+			state = PlayerState::Idle;
+		}
+	}
+
+
+
 	player_.MatUpdate();
 }
 
@@ -53,4 +90,8 @@ void Player::Draw(ViewProjection viewProjection_)
 	}
 	//デバッグフォント
 	debugText_->Printf("playerRad:%f", playerRad);
+	debugText_->SetPos(50,70);
+	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
+	debugText_->SetPos(50, 90);
+	debugText_->Printf("jumpPower:%f", jumpPower);
 }
