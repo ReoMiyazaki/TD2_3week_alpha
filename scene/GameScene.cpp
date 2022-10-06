@@ -1,6 +1,8 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include<random>
+using namespace std;
 using namespace MathUtility;
 
 GameScene::GameScene() {}
@@ -20,6 +22,7 @@ void GameScene::Initialize() {
 	viewProjection_.eye = { 0.0f, 20.0f,-50.0f };
 	viewProjection_.Initialize();
 
+	//プレイヤーの行動円
 	for (int i = 0; i < 64; i++) {
 		playerMoveLine[i].Initialize();
 		float rad = 360.0f / 64.0f * i;
@@ -35,6 +38,18 @@ void GameScene::Initialize() {
 	
 	}
 
+	//乱数
+	random_device seed_gem;
+	mt19937_64 engine(seed_gem());
+	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
+
+	for (int i = 0; i < 10; i++) {
+		daruma[i].Initialize();
+		daruma[i].translation_.y += 2.0 * i;
+		daruma[i].rotation_.y = rotDist(engine);
+		daruma[i].MatUpdate();
+
+	}
 
 	//viewProjection_.UpdateMatrix();
 
@@ -44,12 +59,22 @@ void GameScene::Update() {
 
 //プレイヤーが原点を中心に回転
 	playerRad += 2.0f;
-	fmodf(playerRad, 360.0f);
+	playerRad =fmodf(playerRad, 360.0f);
 	Vector3 movePos;
+	Vector3 rotation = player_.rotation_;
+	rotation.y += playerRad;
+	player_.rotation_.y = playerRad * PI / 180.0f;
+	player_.rotation_.z+= 0.750f;
+	player_.rotation_.z = fmodf(player_.rotation_.z, 360.0f);
+
 	movePos.x = sin(PI / 180 * playerRad) * moveCircleRadius;
 	movePos.z = cos(PI / 180 * playerRad) * moveCircleRadius;
 	player_.translation_ = movePos;
 	player_.MatUpdate();
+
+	//デバッグフォント
+	debugText_->SetPos(50, 50);
+	debugText_->Printf("playerRad:%f", playerRad);
 
 }
 
@@ -84,6 +109,10 @@ void GameScene::Draw() {
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(playerMoveLine[i], viewProjection_);
+	}
+
+	for (int i = 0; i < 10; i++) {
+		model_->Draw(daruma[i], viewProjection_);
 	}
 
 	// 3Dオブジェクト描画後処理
