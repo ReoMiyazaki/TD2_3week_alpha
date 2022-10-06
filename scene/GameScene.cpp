@@ -54,6 +54,9 @@ void GameScene::Initialize() {
 	cameraPos.y = 20.0f;
 	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
 	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
+	cameraPosMemory.y = 20.0f;
+	cameraPosMemory.x = 0;
+	cameraPosMemory.z = 0;
 	viewProjection_.eye =cameraPos;
 	viewProjection_.Initialize();
 
@@ -70,6 +73,18 @@ void GameScene::Update() {
 	float cameraRad = player_->GetRadian() + 30.0f;
 	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
 	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
+	if (input_->PushKey(DIK_UP)) // 回転させてしまえばいい？
+	{
+		float afterRad = cameraRad + 180.0f;
+		cameraPosMemory.z = cameraDistance * cos(PI / 180 * afterRad);
+		cameraPosMemory.x = cameraDistance * sin(PI / 180 * afterRad);
+		cameraPos = cameraPosMemory;
+	}
+	else
+	{
+		cameraPosMemory.x = 0;
+		cameraPosMemory.z = 0;
+	}
 	viewProjection_.eye = cameraPos;
 
 	viewProjection_.UpdateMatrix();

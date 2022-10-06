@@ -63,7 +63,7 @@ class GameScene {
 	float cameraDistance = 50.0f;
 
 	Vector3 cameraPos;
-
+	Vector3 cameraPosMemory;
 	uint32_t texture_ = 0;
 	uint32_t whiteTexture_ = 0;
 
