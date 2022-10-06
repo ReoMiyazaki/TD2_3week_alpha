@@ -1,5 +1,6 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
+#include "FPS.h"
 #include <cassert>
 #include<random>
 using namespace std;
@@ -33,8 +34,8 @@ void GameScene::Initialize() {
 		daruma[i].MatUpdate();
 
 	}
-
 	//viewProjection_.UpdateMatrix();
+
 
 }
 
