@@ -53,6 +53,8 @@ class GameScene {
 
 	Model* model_ = nullptr;
 
+	WorldTransform daruma[10];
+
 	WorldTransform playerMoveLine[64];
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
