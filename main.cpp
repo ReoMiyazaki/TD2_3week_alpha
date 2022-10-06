@@ -5,8 +5,7 @@
 #include "WinApp.h"
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
-
-// この文章は確認用です。新たにリポジトリを作成する場合はこの文章を削除して利用してください。
+#include "FPS.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -19,6 +18,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
+	FPS* fps = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -63,8 +63,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
+	// fps
+	fps = new FPS;
+
+
 	// メインループ
 	while (true) {
+
+		fps->FpsControlBegin();
+
 		// メッセージ処理
 		if (win->ProcessMessage()) {
 			break;
@@ -77,6 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 軸表示の更新
 		axisIndicator->Update();
 
+
 		// 描画開始
 		dxCommon->PreDraw();
 		// ゲームシーンの描画
@@ -87,6 +95,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		primitiveDrawer->Reset();
 		// 描画終了
 		dxCommon->PostDraw();
+
+		if (input->TriggerKey(DIK_ESCAPE)) { break; }
+
+		fps->FpsControlEnd();
 	}
 
 	// 各種解放
@@ -96,5 +108,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
 
+	delete fps;
 	return 0;
 }
