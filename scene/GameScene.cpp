@@ -20,6 +20,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	player_ = new Player();
 	player_->Initialize(moveCircleRadius,moveCircle);
+	camera_ = new Camera();
 
 	//乱数
 	random_device seed_gem;
@@ -49,16 +50,10 @@ void GameScene::Initialize() {
 		randObj[i].MatUpdate();
 	}
 
-	//カメラ座標を自機の角度を使って計算
-	float cameraRad = player_->GetRadian() + 45.0f;
-	cameraPos.y = 20.0f;
-	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
-	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
-	cameraPosMemory.y = 20.0f;
-	cameraPosMemory.x = 0;
-	cameraPosMemory.z = 0;
-	viewProjection_.eye =cameraPos;
+	viewProjection_.eye =camera_->GetCameraPos();
 	viewProjection_.Initialize();
+
+	camera_->Initialize(player_->GetRadian());
 
 	texture_ = TextureManager::Load("mario.jpg");
 	whiteTexture_ = TextureManager::Load("white1x1.png");
@@ -68,17 +63,9 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
-
-	//カメラの更新
-	float cameraRad = player_->GetRadian() + 30.0f;
-	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
-	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
-	//カメラの反転座標
-	float afterRad = cameraRad + 180.0f;
-	cameraPosMemory.z = cameraDistance * cos(PI / 180 * afterRad);
-	cameraPosMemory.x = cameraDistance * sin(PI / 180 * afterRad);
-
-	viewProjection_.eye = cameraPos;
+	camera_->Update(player_->GetRadian());
+	
+	viewProjection_.eye = camera_->GetCameraPos();
 
 	viewProjection_.UpdateMatrix();
 

@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Camera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -52,6 +53,7 @@ class GameScene {
 	Model* model_ = nullptr;
 
 	Player* player_ = nullptr;
+	Camera* camera_ = nullptr;
 
 	WorldTransform daruma[10];
 
@@ -60,10 +62,7 @@ class GameScene {
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
 
-	float cameraDistance = 50.0f;
-
-	Vector3 cameraPos;
-	Vector3 cameraPosMemory;
+	
 	uint32_t texture_ = 0;
 	uint32_t whiteTexture_ = 0;
 
