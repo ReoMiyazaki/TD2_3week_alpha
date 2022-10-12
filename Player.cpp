@@ -178,6 +178,7 @@ void Player::Draw(ViewProjection viewProjection_)
 	debugText_->Printf("playerTransform:(%f,%f,%f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 170);
 	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
+	
 }
 
 Vector3 Player::GetWorldPosition()

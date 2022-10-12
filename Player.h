@@ -36,7 +36,7 @@ public:
 
 	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	Vector3 GetWorldPosition();
-
+	PlayerState GetPlayerState()const { return state; }
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];

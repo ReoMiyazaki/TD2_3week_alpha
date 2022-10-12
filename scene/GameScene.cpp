@@ -63,8 +63,8 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
-	camera_->Update(player_->GetRadian());
-	
+	camera_->Update(player_->GetRadian(),player_->GetPlayerState());
+
 	viewProjection_.eye = camera_->GetCameraPos();
 
 	viewProjection_.UpdateMatrix();
@@ -104,7 +104,7 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_->Draw(viewProjection_);
-
+	camera_->Draw();
 	for (int i = 0; i < 10; i++) {
 		model_->Draw(daruma[i], viewProjection_,texture_);
 	}
