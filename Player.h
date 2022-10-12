@@ -32,6 +32,7 @@ public:
 	/// •`‰æˆ—
 	/// </summary>
 	void Draw(ViewProjection viewProjection_);
+
 	float GetRadian()const { return playerRad; }
 
 	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾

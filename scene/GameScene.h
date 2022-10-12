@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -53,7 +54,7 @@ class GameScene {
 
 	Player* player_ = nullptr;
 
-	WorldTransform daruma[10];
+	Enemy* enemy_ = nullptr;
 
 	WorldTransform randObj[64];
 	

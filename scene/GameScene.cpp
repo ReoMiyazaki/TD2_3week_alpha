@@ -17,22 +17,21 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
+	texture_ = TextureManager::Load("mario.jpg");
+	whiteTexture_ = TextureManager::Load("white1x1.png");
+
 	model_ = Model::Create();
 	player_ = new Player();
 	player_->Initialize(moveCircleRadius,moveCircle);
+
+	// 敵の初期化
+	enemy_ = new Enemy();
+	enemy_->Initialize(model_, texture_);
 
 	//乱数
 	random_device seed_gem;
 	mt19937_64 engine(seed_gem());
 	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
-
-	for (int i = 0; i < 10; i++) {
-		daruma[i].Initialize();
-		daruma[i].translation_.y += 2.0 * i;
-		daruma[i].rotation_.y = rotDist(engine);
-		daruma[i].MatUpdate();
-
-	}
 
 	for (int i = 0; i < 64; i++) {
 		randObj[i].Initialize();
@@ -60,14 +59,13 @@ void GameScene::Initialize() {
 	viewProjection_.eye =cameraPos;
 	viewProjection_.Initialize();
 
-	texture_ = TextureManager::Load("mario.jpg");
-	whiteTexture_ = TextureManager::Load("white1x1.png");
 
 }
 
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
+	enemy_->UpDate();
 
 	//カメラの更新
 	float cameraRad = player_->GetRadian() + 30.0f;
@@ -118,9 +116,7 @@ void GameScene::Draw() {
 
 	player_->Draw(viewProjection_);
 
-	for (int i = 0; i < 10; i++) {
-		model_->Draw(daruma[i], viewProjection_,texture_);
-	}
+	enemy_->Draw(viewProjection_);
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
