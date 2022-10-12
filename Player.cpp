@@ -116,9 +116,6 @@ void Player::Update(float moveCircleRadius)
 	// playerƒ_ƒbƒVƒ…ˆ—
 	else if (state == PlayerState::dash)
 	{
-
-
-
 		/*Vector3Length(distance);
 		Vector3Normalize(distance);*/
 
@@ -155,8 +152,6 @@ void Player::Update(float moveCircleRadius)
 		}*/
 
 	}
-
-
 
 	player_.MatUpdate();
 }
