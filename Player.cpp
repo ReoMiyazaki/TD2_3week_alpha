@@ -35,7 +35,7 @@ void Player::Update(float moveCircleRadius)
 	if (state == PlayerState::Idle)
 	{
 		// プレイヤーが原点を中心に回転
-		playerRad += 2.0f;
+		playerRad +=2.0f;
 		playerRad = fmodf(playerRad, 360.0f);
 		rotation = player_.rotation_;
 		rotation.y += playerRad;

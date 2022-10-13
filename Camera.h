@@ -27,9 +27,12 @@ private:
 
 	float maxTime;
 	float timeRate;
+	float beforeRad = 0; 
+	float beforeplayerRad = 0;
 	long long startCount;
 	long long nowCount;
 	long long endCount;
+	float endTimer;
 
 	int cameraFlag;
 };
