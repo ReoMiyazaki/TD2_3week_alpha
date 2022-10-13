@@ -131,9 +131,22 @@ void Camera::Draw()
 
 float Camera::EZ(float start, float end, float timer)
 {
-	return start * (1.0f - timer) + end * timer;
-}
+	float x;
 
+	//easeOut
+	x = 1 - pow(1 - timer, 5);
+	//easeIn
+	//x = x * x * x * x * x;
+	//easeOutBack
+	//const float c1 = 1.70158;
+	//const float  c3 = c1 + 1;
+
+	//x = 1 + c3 * pow(x - 1, 3) + c1 * pow(x - 1, 2);
+	////easeInBack
+	//x = c3 * x * x * x - c1 * x * x;
+	return start * (1.0f - x) + end * x;
+}
+/*start * (1.0f - timer) + end * timer;*/
 int GetNowTime()
 {
 	return time(nullptr);
