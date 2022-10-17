@@ -35,7 +35,7 @@ void Player::Update(float moveCircleRadius)
 	if (state == PlayerState::Idle)
 	{
 		// プレイヤーが原点を中心に回転
-		playerRad += 2.0f;
+		playerRad +=2.0f;
 		playerRad = fmodf(playerRad, 360.0f);
 		rotation = player_.rotation_;
 		rotation.y += playerRad;
@@ -178,6 +178,7 @@ void Player::Draw(ViewProjection viewProjection_)
 	debugText_->Printf("playerTransform:(%f,%f,%f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 170);
 	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
+	
 }
 
 Vector3 Player::GetWorldPosition()

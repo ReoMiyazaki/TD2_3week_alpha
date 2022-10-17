@@ -22,7 +22,8 @@ void GameScene::Initialize() {
 
 	model_ = Model::Create();
 	player_ = new Player();
-	player_->Initialize(moveCircleRadius, moveCircle);
+	player_->Initialize(moveCircleRadius,moveCircle);
+	camera_ = new Camera();
 
 	// 敵の初期化
 	for (int i = 0; i < 10; i++)
@@ -60,38 +61,26 @@ void GameScene::Initialize() {
 		randObj[i].MatUpdate();
 	}
 
-	//カメラ座標を自機の角度を使って計算
-	float cameraRad = player_->GetRadian() + 45.0f;
-	cameraPos.y = 20.0f;
-	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
-	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
-	cameraPosMemory.y = 20.0f;
-	cameraPosMemory.x = 0;
-	cameraPosMemory.z = 0;
-	viewProjection_.eye = cameraPos;
+viewProjection_.eye =camera_->GetCameraPos();
 	viewProjection_.Initialize();
 
+	camera_->Initialize(player_->GetRadian());
+
+	texture_ = TextureManager::Load("mario.jpg");
+	whiteTexture_ = TextureManager::Load("white1x1.png");
 
 }
 
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
+	camera_->Update(player_->GetRadian(),player_->GetPlayerState());
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->UpDate();
 	}
 
-	//カメラの更新
-	float cameraRad = player_->GetRadian() + 30.0f;
-	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
-	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
-	//カメラの反転座標
-	float afterRad = cameraRad + 180.0f;
-	cameraPosMemory.z = cameraDistance * cos(PI / 180 * afterRad);
-	cameraPosMemory.x = cameraDistance * sin(PI / 180 * afterRad);
-
-	viewProjection_.eye = cameraPos;
+	viewProjection_.eye = camera_->GetCameraPos();
 
 	viewProjection_.UpdateMatrix();
 
@@ -132,6 +121,10 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_->Draw(viewProjection_);
+	camera_->Draw();
+	for (int i = 0; i < 10; i++) {
+		model_->Draw(daruma[i], viewProjection_,texture_);
+    
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_, i);
