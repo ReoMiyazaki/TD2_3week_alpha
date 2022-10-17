@@ -22,16 +22,28 @@ void GameScene::Initialize() {
 
 	model_ = Model::Create();
 	player_ = new Player();
-	player_->Initialize(moveCircleRadius,moveCircle);
+	player_->Initialize(moveCircleRadius, moveCircle);
 
 	// 敵の初期化
-	enemy_ = new Enemy();
-	enemy_->Initialize(model_, texture_);
+	for (int i = 0; i < 10; i++)
+	{
+		enemy_[i] = new Enemy();
+		enemy_[i]->Initialize(model_, texture_);
+	}
 
 	//乱数
 	random_device seed_gem;
 	mt19937_64 engine(seed_gem());
 	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
+
+
+	//	for (int i = 0; i < 10; i++) {
+	//		daruma[i].Initialize();
+	//		daruma[i].translation_.y += 2.0 * i;
+	//		daruma[i].rotation_.y = rotDist(engine);
+	//		daruma[i].MatUpdate();
+	//
+	//	}
 
 	for (int i = 0; i < 64; i++) {
 		randObj[i].Initialize();
@@ -40,9 +52,9 @@ void GameScene::Initialize() {
 		pos.y = Random(-50.0f, 50.0f);
 		pos.z = Random(-50.0f, 50.0f);
 		randObj[i].translation_ = pos;
-		pos.x = Random(0.0f,360.0f);
-		pos.y = Random(0.0f,360.0f);
-		pos.z = Random(0.0f,360.0f);
+		pos.x = Random(0.0f, 360.0f);
+		pos.y = Random(0.0f, 360.0f);
+		pos.z = Random(0.0f, 360.0f);
 		randObj[i].rotation_ = pos;
 		randObj[i].scale_ = { 0.1f,0.1f,0.1f };
 		randObj[i].MatUpdate();
@@ -56,7 +68,7 @@ void GameScene::Initialize() {
 	cameraPosMemory.y = 20.0f;
 	cameraPosMemory.x = 0;
 	cameraPosMemory.z = 0;
-	viewProjection_.eye =cameraPos;
+	viewProjection_.eye = cameraPos;
 	viewProjection_.Initialize();
 
 
@@ -65,7 +77,10 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	player_->Update(moveCircleRadius);
-	enemy_->UpDate();
+	for (int i = 0; i < 10; i++)
+	{
+		enemy_[i]->UpDate();
+	}
 
 	//カメラの更新
 	float cameraRad = player_->GetRadian() + 30.0f;
@@ -80,10 +95,12 @@ void GameScene::Update() {
 
 	viewProjection_.UpdateMatrix();
 
+	CheckAllCollisions();
+
 
 	//デバッグフォント
 	debugText_->SetPos(50, 50);
-	
+
 
 }
 
@@ -115,8 +132,14 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_->Draw(viewProjection_);
+	for (int i = 0; i < 10; i++)
+	{
+		enemy_[i]->Draw(viewProjection_, i);
+	}
 
-	enemy_->Draw(viewProjection_);
+	//	for (int i = 0; i < 10; i++) {
+	//		model_->Draw(daruma[i], viewProjection_, texture_);
+	//	}
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
@@ -140,5 +163,107 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
+#pragma endregion
+}
+
+void GameScene::CheckAllCollisions()
+{
+#pragma region 自キャラとダルマの当たり判定(中心)
+	{
+		// 判定対象aとbの座標
+		Vector3 posA, posB[10];
+
+		float x[10], y[10], z[10];
+
+		// 自キャラ座標
+		posA = player_->GetWorldPosition();
+		// 敵キャラ座標
+	//	posB = enemy_->GetWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			posB[i] = enemy_[i]->GetWorldPosition(i);
+
+			x[i] = posA.x - posB[i].x;
+			y[i] = posA.y - posB[i].y;
+			z[i] = posA.z - posB[i].z;
+
+			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+
+			Matrix4 matA = player_->GetMatrix();
+			Matrix4 matB = enemy_[i]->GetMatrix();
+
+			// 自キャラと敵キャラの交差判定
+			if (distance < matA.m[0][0] + matB.m[0][0])
+			{
+				enemy_[i]->OnCollision();
+			}
+		}
+	}
+#pragma endregion
+#pragma region 自キャラとダルマの当たり判定(下辺)
+	{
+		// 判定対象aとbの座標
+		Vector3 posA, posB[10];
+
+		float x[10], y[10], z[10];
+
+		// 自キャラ座標
+		posA = player_->GetWorldPosition();
+		// 敵キャラ座標
+	//	posB = enemy_->GetWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			posB[i] = enemy_[i]->GetWorldPosition(i);
+
+			// 半径分値をずらす
+			x[i] = posA.x - posB[i].x;
+			y[i] = posA.y - posB[i].y;
+			z[i] = posA.z - posB[i].z;
+
+			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+
+			Matrix4 matA = player_->GetMatrix();
+			Matrix4 matB = enemy_[i]->GetMatrix();
+
+			// 自キャラと敵キャラの交差判定
+			if (distance < matA.m[0][0] + matB.m[0][0])
+			{
+				enemy_[i]->OnCollision();
+			}
+		}
+	}
+#pragma endregion
+#pragma region 自キャラとダルマの当たり判定(上辺)
+	{
+		// 判定対象aとbの座標
+		Vector3 posA, posB[10];
+
+		float x[10], y[10], z[10];
+
+		// 自キャラ座標
+		posA = player_->GetWorldPosition();
+		// 敵キャラ座標
+	//	posB = enemy_->GetWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			posB[i] = enemy_[i]->GetWorldPosition(i);
+
+			// 半径分値をずらす
+			x[i] = posA.x - posB[i].x;
+			y[i] = posA.y - posB[i].y;
+			z[i] = posA.z - posB[i].z;
+
+			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+
+			Matrix4 matA = player_->GetMatrix();
+			Matrix4 matB = enemy_[i]->GetMatrix();
+
+			// 自キャラと敵キャラの交差判定
+			if (distance < matA.m[0][0] + matB.m[0][0])
+			{
+				enemy_[i]->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 }

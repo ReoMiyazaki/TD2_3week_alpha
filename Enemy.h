@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DebugText.h"
 #include "Input.h"
 #include "Model.h"
 #include "WorldTransform.h"
@@ -25,15 +26,31 @@ public:
 	/// 描画処理
 	/// </summary>
 	/// <param name="viewProjection"></param>
-	void Draw(ViewProjection viewProjection);
+	void Draw(ViewProjection viewProjection, int i);
 
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	/// <returns></returns>
+	void OnCollision();
 
-private:
+	// ワールド座標を取得
+	Vector3 GetWorldPosition(int i);
+
 	// ワールド変換データ
 	WorldTransform worldTransforms_[10];
+
+	Matrix4 GetMatrix() { return worldTransform_.matWorld_; };
+
+private:
+	WorldTransform worldTransform_;
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	DebugText* debugText_ = nullptr;
+
+	int isHit = 0;
 };
 

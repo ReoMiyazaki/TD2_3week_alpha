@@ -38,6 +38,8 @@ public:
 	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	Vector3 GetWorldPosition();
 
+	Matrix4 GetMatrix() { return player_.matWorld_; };
+
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
