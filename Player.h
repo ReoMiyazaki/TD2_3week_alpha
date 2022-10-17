@@ -17,25 +17,29 @@ class Player
 {
 public:
 	/// <summary>
-	/// ‰Šú‰»ˆ—
+	/// åˆæœŸåŒ–å‡¦ç†
 	/// </summary>
 	/// <param name="moveCircleRadius"></param>
 	/// <param name="moveCircle"></param>
 	void Initialize(float moveCircleRadius, Vector2 moveCircle);
 
 	/// <summary>
-	/// XVˆ—
+	/// æ›´æ–°å‡¦ç†
 	/// </summary>
 	/// <param name="moveCircleRadius"></param>
 	void Update(float moveCircleRadius);
 	/// <summary>
-	/// •`‰æˆ—
+	/// æç”»å‡¦ç†
 	/// </summary>
 	void Draw(ViewProjection viewProjection_);
+
 	float GetRadian()const { return playerRad; }
 
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 GetWorldPosition();
+
+	Matrix4 GetMatrix() { return player_.matWorld_; };
+
 	PlayerState GetPlayerState()const { return state; }
 private:
 	WorldTransform player_;

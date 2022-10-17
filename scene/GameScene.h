@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Camera.h"
 
 /// <summary>
@@ -43,6 +44,11 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	void CheckAllCollisions();
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -55,7 +61,9 @@ class GameScene {
 	Player* player_ = nullptr;
 	Camera* camera_ = nullptr;
 
-	WorldTransform daruma[10];
+	Enemy* enemy_[10] = { nullptr };
+
+//	WorldTransform daruma[10];
 
 	WorldTransform randObj[64];
 	
