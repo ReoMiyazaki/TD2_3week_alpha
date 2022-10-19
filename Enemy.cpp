@@ -39,10 +39,8 @@ void Enemy::Draw(ViewProjection viewProjection, int i)
 {
 	model_->Draw(worldTransforms_[i], viewProjection, textureHandle_);
 	//	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	for (int i = 0; i < 10; i++) {
-		debugText_->SetPos(50, 200 + 20 * i);
-		debugText_->Printf("isHit[%d] : %d", i, isHit);
-	}
+	debugText_->SetPos(50, 190 + 35 * i);
+	debugText_->Printf("isHit[%d] : %d", i, isHit);
 }
 
 void Enemy::OnCollision()

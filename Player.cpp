@@ -35,7 +35,7 @@ void Player::Update(float moveCircleRadius)
 	if (state == PlayerState::Idle)
 	{
 		// プレイヤーが原点を中心に回転
-		playerRad +=2.0f;
+		playerRad += 2.0f;
 		playerRad = fmodf(playerRad, 360.0f);
 		rotation = player_.rotation_;
 		rotation.y += playerRad;
@@ -106,8 +106,8 @@ void Player::Update(float moveCircleRadius)
 			dashSpeed.x = afterPos.x - player_.translation_.x;
 			dashSpeed.z = afterPos.z - player_.translation_.z;
 			//速度を移動時間で分割
-			dashSpeed.x /= static_cast<float>(dashTime);
-			dashSpeed.z /= static_cast<float>(dashTime);
+			dashSpeed.x /= static_cast<int>(dashTime);
+			dashSpeed.z /= static_cast<int>(dashTime);
 
 			player_.rotation_.y = playerRad * PI / 180.0f;
 		}
@@ -119,22 +119,37 @@ void Player::Update(float moveCircleRadius)
 		/*Vector3Length(distance);
 		Vector3Normalize(distance);*/
 
-	//	dashSpeed *= kMoveSpeed;
-		//移動速度の加算
+		//	dashSpeed *= kMoveSpeed;
+			//移動速度の加算
+
+			//dashSpeed /= 10.0f;
+
 		player_.translation_.x += dashSpeed.x;
 		player_.translation_.z += dashSpeed.z;
 
 		player_.rotation_.z += 0.5f;
 
 		//自機の平行移動量がスペースキー押下時に設定した移動後座標なら移動終了。落下フェーズへ
-		if(static_cast<int>(player_.translation_.x) ==static_cast<int>(afterPos.x) &&
+		if (static_cast<int>(player_.translation_.x) == static_cast<int>(afterPos.x) &&
 			static_cast<int>(player_.translation_.y) == static_cast<int>(afterPos.y) &&
-			static_cast<int>(player_.translation_.z) == static_cast<int>(afterPos.z)){
-			player_.translation_ = afterPos;
+			static_cast<int>(player_.translation_.z) == static_cast<int>(afterPos.z)) {
+
+		}
+
+		int a, b;
+		a = player_.translation_.x - afterPos.x;
+		b = player_.translation_.z - afterPos.z;
+		if (a == 0 && b == 0) {
 			player_.rotation_.x = 0.0f;
 			state = PlayerState::Jump;
 			jumpPower = 0.0f;
 		}
+
+
+		debugText_->SetPos(50, 400);
+		debugText_->Printf("pos - afterpos:(%d,%d,%d)", a, 0, b);
+
+
 
 		/*if (player_.translation_.x >= afterPos.x && player_.translation_.z >= afterPos.z ||
 			player_.translation_.x >= afterPos.x && afterPos.z >= player_.translation_.z ||
@@ -175,10 +190,10 @@ void Player::Draw(ViewProjection viewProjection_)
 	debugText_->SetPos(50, 130);
 	debugText_->Printf("dashSpeed:(%f,%f,%f)", dashSpeed.x, dashSpeed.y, dashSpeed.z);
 	debugText_->SetPos(50, 150);
-	debugText_->Printf("playerTransform:(%f,%f,%f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
+	debugText_->Printf("playerPos:(%f,%f,%f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 170);
 	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
-	
+
 }
 
 Vector3 Player::GetWorldPosition()
