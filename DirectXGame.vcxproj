@@ -105,7 +105,6 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtility.cpp" />
-    <ClCompile Include="math\MathUtility.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
