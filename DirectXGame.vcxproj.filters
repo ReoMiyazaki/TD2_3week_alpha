@@ -122,21 +122,6 @@
     <ClInclude Include="scene\GameScene.h">
       <Filter>ヘッダーファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ヘッダーファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダーファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="FPS.h">
-      <Filter>ヘッダーファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダーファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="ErrorException.h">
-      <Filter>ヘッダーファイル\scene</Filter>
-    </ClInclude>
     <ClInclude Include="3d\AxisIndicator.h">
       <Filter>ヘッダーファイル\3d</Filter>
     </ClInclude>
@@ -181,6 +166,21 @@
     </ClInclude>
     <ClInclude Include="3d\WorldTransform.h">
       <Filter>ヘッダーファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorException.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
