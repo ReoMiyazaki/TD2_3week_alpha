@@ -7,7 +7,7 @@
 #include "ViewProjection.h"
 #include <cassert>
 
-class Enemy
+class Enemy 
 {
 public:
 	/// <summary>
@@ -15,18 +15,24 @@ public:
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
-	void Initialize(Model* model, uint32_t textureHandle);
+	/// <param name="i">敵キャラの番号</param>
+	void Initialize(Model* model, uint32_t textureHandle, int i);
 	
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void UpDate();
+	void UpDate(int i);
 	
 	/// <summary>
 	/// 描画処理
 	/// </summary>
 	/// <param name="viewProjection"></param>
-	void Draw(ViewProjection viewProjection, int i);
+	void Draw(ViewProjection viewProjection);
+
+	/// <summary>
+	/// デバック用テキスト
+	/// </summary>
+	void DebugTex(int i);
 
 	/// <summary>
 	/// 当たり判定
@@ -38,7 +44,7 @@ public:
 	Vector3 GetWorldPosition(int i);
 
 	// ワールド変換データ
-	WorldTransform worldTransforms_[10];
+//	WorldTransform worldTransforms_[10];
 
 	Matrix4 GetMatrix() { return worldTransform_.matWorld_; };
 

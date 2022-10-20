@@ -18,14 +18,14 @@ void Camera::Initialize(float playerRadius)
 	cameraPosMemory.x = 0;
 	cameraPosMemory.z = 0;
 
-//------------ イージング関係 -------------------//
+	//------------ イージング関係 -------------------//
 	startCount = 0;
 	nowCount = 0;
 	endCount = 0;
 
-	maxTime =2.0f;
+	maxTime = 2.0f;
 	startCount = 0;
-//------------ イージング関係 -------------------//
+	//------------ イージング関係 -------------------//
 	cameraFlag = false;
 }
 
@@ -40,10 +40,10 @@ void Camera::Update(float playerRadius, PlayerState state)
 	cameraPosMemory.z = cameraDistance * cos(PI / 180 * afterRad);
 	cameraPosMemory.x = cameraDistance * sin(PI / 180 * afterRad);
 
-//--------------- イージング関係 ----------------------------------//
-	//int ft = clock();
+	//--------------- イージング関係 ----------------------------------//
+		//int ft = clock();
 
-	
+
 
 	if (state == PlayerState::dash)
 	{
@@ -62,9 +62,9 @@ void Camera::Update(float playerRadius, PlayerState state)
 	endTimer = static_cast<float> (endCount) / 1'000.0f;
 	//(タイマーの進み具合/タイマーの最大時間)で0~1の間のどこなのか計算
 	timeRate = min(endTimer / maxTime, 1.0f);
-	
+
 	//タイマーが1か0(イージングが終了している)なら
-	if (timeRate >= 1 ) {
+	if (timeRate >= 1) {
 		//カメラの角度はデフォルト
 		cameraRad = playerRadius + 30.0f;
 	}//それ以外(イージングの途中)なら
@@ -75,10 +75,10 @@ void Camera::Update(float playerRadius, PlayerState state)
 			rad += 360.0f;
 		}
 
-		debugText_->SetPos(800, 290);
-		debugText_->Printf("rad:[%f]", rad);
+	//	debugText_->SetPos(800, 100);
+	//	debugText_->Printf("rad:[%3.2f]", rad);
 
-		cameraRad = EZ(beforeRad + 180.0f,rad,timeRate);
+		cameraRad = EZ(beforeRad + 180.0f, rad, timeRate);
 	}
 
 	if (state == PlayerState::dash || state == PlayerState::Jump) {
@@ -87,44 +87,44 @@ void Camera::Update(float playerRadius, PlayerState state)
 	}
 
 	//cameraRad = fmodf(cameraRad, 360.0f);
-	
+
 	//角度で座標を計算
 	cameraPos.x = sin(cameraRad * PI / 180) * cameraDistance;
 	cameraPos.z = cos(cameraRad * PI / 180) * cameraDistance;
 
-	debugText_->SetPos(800, 210);
-	debugText_->Printf("playerRad:[%f]", playerRadius);
-	debugText_->SetPos(800, 230);
-	debugText_->Printf("cameraRad:[%f]", cameraRad);
-	debugText_->SetPos(800, 250);
-	debugText_->Printf("cameraRad2:[%f]", beforeRad);
-	debugText_->SetPos(800, 270);
-	debugText_->Printf("nowRad:[%f]", (timeRate * 180.0f) + beforeRad);
+	//	debugText_->SetPos(800, 210);
+	//	debugText_->Printf("playerRad:[%f]", playerRadius);
+	//	debugText_->SetPos(800, 230);
+	//	debugText_->Printf("cameraRad:[%f]", cameraRad);
+	//	debugText_->SetPos(800, 250);
+	//	debugText_->Printf("cameraRad2:[%f]", beforeRad);
+	//	debugText_->SetPos(800, 270);
+	//	debugText_->Printf("nowRad:[%f]", (timeRate * 180.0f) + beforeRad);
 
-	/*debugText_->SetPos(800, 210);
-	debugText_->Printf("nowTime:[%f]",ft );*/
+		/*debugText_->SetPos(800, 210);
+		debugText_->Printf("nowTime:[%f]",ft );*/
 
-//----------------------------------------------------------------//
+		//----------------------------------------------------------------//
 }
 
 void Camera::Draw()
 {
-	debugText_->SetPos(800, 50);
-	debugText_->Printf("cameraPos:[%f][%f]", cameraPos.x, cameraPos.z);
-	debugText_->SetPos(800, 70);
-	debugText_->Printf("cameraPosMemory:[%f][%f]", cameraPosMemory.x, cameraPosMemory.z);
-	debugText_->SetPos(800, 90);
+	debugText_->SetPos(800, 20);
+	debugText_->Printf("cameraPos:[%3.2f][%3.2f]", cameraPos.x, cameraPos.z);
+	debugText_->SetPos(800, 40);
+	debugText_->Printf("cameraPosMemory:[%3.2f][%3.2f]", cameraPosMemory.x, cameraPosMemory.z);
+	debugText_->SetPos(800, 60);
 	debugText_->Printf("cameraFlag:[%d]", cameraFlag);
-	debugText_->SetPos(800, 110);
-	debugText_->Printf("startCount:[%d]", startCount);
-	debugText_->SetPos(800, 130);
-	debugText_->Printf("endCount:[%d]", endCount);
-	debugText_->SetPos(800, 150);
-	debugText_->Printf("nowCount:[%d]", nowCount);
-	debugText_->SetPos(800, 170);
-	debugText_->Printf("timeRate:[%f]", timeRate);
-	debugText_->SetPos(800, 190);
-	debugText_->Printf("endTimer:[%f]", endTimer);
+	//	debugText_->SetPos(800, 110);
+	//	debugText_->Printf("startCount:[%d]", startCount);
+	//	debugText_->SetPos(800, 130);
+	//	debugText_->Printf("endCount:[%d]", endCount);
+	//	debugText_->SetPos(800, 150);
+	//	debugText_->Printf("nowCount:[%d]", nowCount);
+	//	debugText_->SetPos(800, 170);
+	//	debugText_->Printf("timeRate:[%f]", timeRate);
+	//	debugText_->SetPos(800, 190);
+	//	debugText_->Printf("endTimer:[%f]", endTimer);
 
 
 }

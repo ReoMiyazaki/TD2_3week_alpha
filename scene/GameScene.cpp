@@ -29,14 +29,16 @@ void GameScene::Initialize() {
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i] = new Enemy();
-		enemy_[i]->Initialize(model_, texture_);
+		enemy_[i]->Initialize(model_, texture_, i);
 	}
+
+	//	enemy_ = new Enemy();
+	//	enemy_->Initialize(model_, texture_);
 
 	//乱数
 	random_device seed_gem;
 	mt19937_64 engine(seed_gem());
 	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
-
 
 	//	for (int i = 0; i < 10; i++) {
 	//		daruma[i].Initialize();
@@ -77,8 +79,10 @@ void GameScene::Update() {
 	camera_->Update(player_->GetRadian(), player_->GetPlayerState());
 	for (int i = 0; i < 10; i++)
 	{
-		enemy_[i]->UpDate();
+		enemy_[i]->UpDate(i);
 	}
+	//	enemy_->UpDate();
+	//	enemy_->DebugTex();
 
 	viewProjection_.eye = camera_->GetCameraPos();
 
@@ -122,10 +126,14 @@ void GameScene::Draw() {
 
 	player_->Draw(viewProjection_);
 	camera_->Draw();
+
 	for (int i = 0; i < 10; i++)
 	{
-		enemy_[i]->Draw(viewProjection_, i);
+		enemy_[i]->Draw(viewProjection_);
+		enemy_[i]->DebugTex(i);
 	}
+	//	enemy_[0]->DebugTex();
+	//	enemy_->Draw(viewProjection_);
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
@@ -168,6 +176,7 @@ void GameScene::CheckAllCollisions()
 
 		for (int i = 0; i < 10; i++) {
 			posB[i] = enemy_[i]->GetWorldPosition(i);
+			//	posB[i] = enemy_->GetWorldPosition(i);
 
 			x[i] = posA.x - posB[i].x;
 			y[i] = posA.y - posB[i].y;
@@ -177,80 +186,90 @@ void GameScene::CheckAllCollisions()
 
 			Matrix4 matA = player_->GetMatrix();
 			Matrix4 matB = enemy_[i]->GetMatrix();
+			//	Matrix4 matB = enemy_->GetMatrix();
 
-			// 自キャラと敵キャラの交差判定
+				// 自キャラと敵キャラの交差判定
 			if (distance < matA.m[0][0] + matB.m[0][0])
 			{
 				enemy_[i]->OnCollision();
+				//	enemy_->OnCollision();
 			}
 		}
 	}
 #pragma endregion
 #pragma region 自キャラとダルマの当たり判定(下辺)
-	//	{
-	//		// 判定対象aとbの座標
-	//		Vector3 posA, posB[10];
-	//
-	//		float x[10], y[10], z[10];
-	//
-	//		// 自キャラ座標
-	//		posA = player_->GetWorldPosition();
-	//		// 敵キャラ座標
-	//	//	posB = enemy_->GetWorldPosition();
-	//
-	//		for (int i = 0; i < 10; i++) {
-	//			posB[i] = enemy_[i]->GetWorldPosition(i);
-	//
-	//			// 半径分値をずらす
-	//			x[i] = posA.x - posB[i].x;
-	//			y[i] = posA.y - posB[i].y;
-	//			z[i] = posA.z - posB[i].z;
-	//
-	//			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
-	//
-	//			Matrix4 matA = player_->GetMatrix();
-	//			Matrix4 matB = enemy_[i]->GetMatrix();
-	//
-	//			// 自キャラと敵キャラの交差判定
-	//			if (distance < matA.m[0][0] + matB.m[0][0])
-	//			{
-	//				enemy_[i]->OnCollision();
-	//			}
-	//		}
-	//	}
+	{
+		// 判定対象aとbの座標
+		Vector3 posA, posB[10];
+
+		float x[10] = {}, y[10] = {}, z[10] = {};
+
+		// 自キャラ座標
+		posA = player_->GetWorldPosition();
+		// 敵キャラ座標
+	//	posB = enemy_->GetWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			posB[i] = enemy_[i]->GetWorldPosition(i);
+			//	posB[i] = enemy_->GetWorldPosition(i);
+
+				// 半径分値をずらす
+			x[i] = posA.x - posB[i].x;
+			y[i] = posA.y - posB[i].y - 1;
+			//	y[i] = posA.y - posB[i].y - enemy_->worldTransforms_->scale_.y;
+			z[i] = posA.z - posB[i].z;
+
+			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+
+			Matrix4 matA = player_->GetMatrix();
+			Matrix4 matB = enemy_[i]->GetMatrix();
+			//	Matrix4 matB = enemy_->GetMatrix();
+
+				// 自キャラと敵キャラの交差判定
+			if (distance < matA.m[0][0] + matB.m[0][0])
+			{
+				enemy_[i]->OnCollision();
+				//	enemy_->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 #pragma region 自キャラとダルマの当たり判定(上辺)
-//	{
-//		// 判定対象aとbの座標
-//		Vector3 posA, posB[10];
-//
-//		float x[10], y[10], z[10];
-//
-//		// 自キャラ座標
-//		posA = player_->GetWorldPosition();
-//		// 敵キャラ座標
-//	//	posB = enemy_->GetWorldPosition();
-//
-//		for (int i = 0; i < 10; i++) {
-//			posB[i] = enemy_[i]->GetWorldPosition(i);
-//
-//			// 半径分値をずらす
-//			x[i] = posA.x - posB[i].x;
-//			y[i] = posA.y - posB[i].y;
-//			z[i] = posA.z - posB[i].z;
-//
-//			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
-//
-//			Matrix4 matA = player_->GetMatrix();
-//			Matrix4 matB = enemy_[i]->GetMatrix();
-//
-//			// 自キャラと敵キャラの交差判定
-//			if (distance < matA.m[0][0] + matB.m[0][0])
-//			{
-//				enemy_[i]->OnCollision();
-//			}
-//		}
-//	}
+	{
+		// 判定対象aとbの座標
+		Vector3 posA, posB[10];
+
+		float x[10], y[10], z[10];
+
+		// 自キャラ座標
+		posA = player_->GetWorldPosition();
+		// 敵キャラ座標
+	//	posB = enemy_->GetWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			posB[i] = enemy_[i]->GetWorldPosition(i);
+			//	posB[i] = enemy_->GetWorldPosition(i);
+
+				// 半径分値をずらす
+			x[i] = posA.x - posB[i].x;
+			y[i] = posA.y - posB[i].y + 1;
+			//	y[i] = posA.y - posB[i].y + enemy_->worldTransforms_->scale_.y;
+			z[i] = posA.z - posB[i].z;
+
+			float distance = sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+
+			Matrix4 matA = player_->GetMatrix();
+			Matrix4 matB = enemy_[i]->GetMatrix();
+			//	Matrix4 matB = enemy_->GetMatrix();
+
+				// 自キャラと敵キャラの交差判定
+			if (distance < matA.m[0][0] + matB.m[0][0])
+			{
+				enemy_[i]->OnCollision();
+				//	enemy_->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 }
 

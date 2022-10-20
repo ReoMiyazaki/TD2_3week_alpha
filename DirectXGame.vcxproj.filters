@@ -45,9 +45,6 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソースファイル\input</Filter>
     </ClCompile>
-    <ClCompile Include="MathUtility.cpp">
-      <Filter>ソースファイル\math</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix4.cpp">
       <Filter>ソースファイル\math</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="MathUtility.cpp">
+      <Filter>ソースファイル\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -87,7 +87,7 @@
       <Filter>ヘッダーファイル\2d</Filter>
     </ClInclude>
     <ClInclude Include="audio\Audio.h">
-      <Filter>ヘッダーファイル\base\audo</Filter>
+      <Filter>ヘッダーファイル\audo</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
       <Filter>ヘッダーファイル\base</Filter>
@@ -102,7 +102,7 @@
       <Filter>ヘッダーファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>ヘッダーファイル\math\input</Filter>
+      <Filter>ヘッダーファイル\input</Filter>
     </ClInclude>
     <ClInclude Include="math\MathUtility.h">
       <Filter>ヘッダーファイル\math</Filter>
@@ -240,11 +240,11 @@
     <Filter Include="ヘッダーファイル\scene">
       <UniqueIdentifier>{515ec48a-5c57-4611-ab71-4227d980d5d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダーファイル\base\audo">
-      <UniqueIdentifier>{d55ccc28-2527-43bd-920d-d6a47842b134}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダーファイル\math\input">
+    <Filter Include="ヘッダーファイル\input">
       <UniqueIdentifier>{f3a9b511-0fe4-4fb9-916e-108b2bc8cddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\audo">
+      <UniqueIdentifier>{d55ccc28-2527-43bd-920d-d6a47842b134}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include <random>
 using namespace std;
 
-void Enemy::Initialize(Model* model, uint32_t textureHandle)
+void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 {
 
 	debugText_ = DebugText::GetInstance();
@@ -16,30 +16,46 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle)
 	random_device seed_gem;
 	mt19937_64 engine(seed_gem());
 	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
-	for (int i = 0; i < 10; i++)
-	{
-		// それぞれの初期化
-		worldTransforms_[i].Initialize();
-		worldTransforms_[i].translation_.y = 2.0f * i;
-		worldTransforms_[i].rotation_.y = rotDist(engine);
-		worldTransforms_[i].MatUpdate();
-	}
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	// それぞれの初期化
+	//	worldTransforms_[i].Initialize();
+	//	worldTransforms_[i].translation_.y = 2.0f * i;
+	//	worldTransforms_[i].rotation_.y = rotDist(engine);
+	//	//	worldTransforms_[i].scale_ = { 2.0f,2.0f,2.0f };
+	//	worldTransforms_[i].MatUpdate();
+	//}
 
-	//	worldTransform_.Initialize();
-	//	worldTransform_.scale_ = { 5.0f,5.0f,5.0f };
-	//	worldTransform_.MatUpdate();
+	worldTransform_.Initialize();
+	worldTransform_.translation_.y = 2.0f * i;
+	worldTransform_.rotation_.y = rotDist(engine);
+	worldTransform_.MatUpdate();
 
 }
 
-void Enemy::UpDate()
+void Enemy::UpDate(int i)
 {
 }
 
-void Enemy::Draw(ViewProjection viewProjection, int i)
+void Enemy::Draw(ViewProjection viewProjection)
 {
-	model_->Draw(worldTransforms_[i], viewProjection, textureHandle_);
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		model_->Draw(worldTransforms_[i], viewProjection, textureHandle_);
+	//	}
 	//	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	debugText_->SetPos(50, 190 + 35 * i);
+	//	debugText_->SetPos(50, 190 + 35 * i);
+	//	debugText_->Printf("isHit[%d] : %d", i, isHit);
+
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+
+}
+
+void Enemy::DebugTex(int i)
+{
+	debugText_->SetPos(50, 200 + 20 * i);
+	debugText_->Printf("enemy_[%d]->pos.y : %3.2f", i, worldTransform_.translation_.y);
+	debugText_->SetPos(800, 250 + 20 * i);
 	debugText_->Printf("isHit[%d] : %d", i, isHit);
 }
 
@@ -54,9 +70,9 @@ Vector3 Enemy::GetWorldPosition(int i)
 	Vector3 worldPos[10];
 
 	// ワールド行列の平行移動成分を取得
-	worldPos[i].y = worldTransforms_[i].matWorld_.m[3][1];
-	worldPos[i].z = worldTransforms_[i].matWorld_.m[3][2];
-	worldPos[i].x = worldTransforms_[i].matWorld_.m[3][0];
+	worldPos[i].y = worldTransform_.matWorld_.m[3][1];
+	worldPos[i].z = worldTransform_.matWorld_.m[3][2];
+	worldPos[i].x = worldTransform_.matWorld_.m[3][0];
 
 	return worldPos[i];
 }

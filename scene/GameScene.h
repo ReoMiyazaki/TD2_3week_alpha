@@ -62,6 +62,7 @@ class GameScene {
 	Camera* camera_ = nullptr;
 
 	Enemy* enemy_[10] = { nullptr };
+//	Enemy* enemy_ = nullptr;
 
 //	WorldTransform daruma[10];
 
