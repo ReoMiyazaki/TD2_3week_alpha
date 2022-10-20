@@ -31,6 +31,8 @@ void GameScene::Initialize() {
 		enemy_[i] = new Enemy();
 		enemy_[i]->Initialize(model_, texture_, i);
 	}
+	enemyBullet_ = new EnemyBullet();
+	enemyBullet_->Initialize(model_, texture_);
 
 	//	enemy_ = new Enemy();
 	//	enemy_->Initialize(model_, texture_);
@@ -81,6 +83,7 @@ void GameScene::Update() {
 	{
 		enemy_[i]->UpDate(i);
 	}
+	enemyBullet_->Update(player_->GetPlayerState());
 	//	enemy_->UpDate();
 	//	enemy_->DebugTex();
 
@@ -124,9 +127,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+
 	player_->Draw(viewProjection_);
 	camera_->Draw();
-
+	enemyBullet_->Draw(viewProjection_);
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_);
@@ -239,7 +243,7 @@ void GameScene::CheckAllCollisions()
 		// 判定対象aとbの座標
 		Vector3 posA, posB[10];
 
-		float x[10], y[10], z[10];
+		float x[10] = {}, y[10] = {}, z[10] = {};
 
 		// 自キャラ座標
 		posA = player_->GetWorldPosition();

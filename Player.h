@@ -41,6 +41,7 @@ public:
 	Matrix4 GetMatrix() { return player_.matWorld_; };
 
 	PlayerState GetPlayerState()const { return state; }
+
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
@@ -64,4 +65,3 @@ private:
 	float kMoveSpeed = 4.0f;
 
 };
-
