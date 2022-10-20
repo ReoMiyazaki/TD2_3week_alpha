@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Camera.h"
+#include "EnemyBullet.h"
 
 /// <summary>
 /// ゲームシーン
@@ -62,6 +63,7 @@ class GameScene {
 	Camera* camera_ = nullptr;
 
 	Enemy* enemy_[10] = { nullptr };
+	EnemyBullet* enemyBullet_ = nullptr;
 
 //	WorldTransform daruma[10];
 

@@ -31,6 +31,8 @@ void GameScene::Initialize() {
 		enemy_[i] = new Enemy();
 		enemy_[i]->Initialize(model_, texture_);
 	}
+	enemyBullet_ = new EnemyBullet();
+	enemyBullet_->Initialize(model_, texture_);
 
 	//乱数
 	random_device seed_gem;
@@ -79,6 +81,7 @@ void GameScene::Update() {
 	{
 		enemy_[i]->UpDate();
 	}
+	enemyBullet_->Update(player_->GetPlayerState());
 
 	viewProjection_.eye = camera_->GetCameraPos();
 
@@ -120,12 +123,15 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+
 	player_->Draw(viewProjection_);
 	camera_->Draw();
+	enemyBullet_->Draw(viewProjection_);
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_, i);
 	}
+	
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
