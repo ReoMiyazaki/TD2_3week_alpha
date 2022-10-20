@@ -10,9 +10,29 @@
 class EnemyBullet
 {
 public:
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="model"></param>
+	/// <param name="textureHandle"></param>
 	void Initialize(Model* model, uint32_t textureHandle);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="state"></param>
 	void Update(PlayerState state);
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	/// <param name="viewProjection"></param>
 	void Draw(ViewProjection viewProjection);
+
+	/// <summary>
+	/// デバック用テキスト専用の関数
+	/// </summary>
+	void DrawDebugText();
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();

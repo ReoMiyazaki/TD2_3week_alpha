@@ -8,11 +8,28 @@
 class Camera
 {
 public:
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="playerRadius"></param>
 	void Initialize(float playerRadius);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="playerRadius"></param>
+	/// <param name="state"></param>
 	void Update(float playerRadius, PlayerState state);
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// デバック用テキスト専用の関数
+	/// </summary>
+	void DrawDebugText();
 
 	float EZ(float start, float end, float timer);
 

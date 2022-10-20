@@ -145,12 +145,6 @@ void Player::Update(float moveCircleRadius)
 			jumpPower = 0.0f;
 		}
 
-
-		debugText_->SetPos(50, 100);
-		debugText_->Printf("pos - afterpos:(%d,%d,%d)", a, 0, b);
-
-
-
 		/*if (player_.translation_.x >= afterPos.x && player_.translation_.z >= afterPos.z ||
 			player_.translation_.x >= afterPos.x && afterPos.z >= player_.translation_.z ||
 			afterPos.x >= player_.translation_.x && player_.translation_.z >= afterPos.z ||
@@ -179,13 +173,6 @@ void Player::Draw(ViewProjection viewProjection_)
 	{
 		model_->Draw(playerMoveLine[i], viewProjection_);
 	}
-	// デバッグフォント
-	debugText_->SetPos(50, 20);
-	debugText_->Printf("playerRad:%3.1f", playerRad);
-	debugText_->SetPos(50, 40);
-	debugText_->Printf("playerPos:(%3.2f,%3.2f,%3.2f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
-	debugText_->SetPos(50, 60);
-	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
 
 //	debugText_->SetPos(50, 70);
 //	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
@@ -196,6 +183,18 @@ void Player::Draw(ViewProjection viewProjection_)
 //	debugText_->SetPos(50, 170);
 //	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
 
+}
+
+void Player::DrawDebugText()
+{
+	debugText_->SetPos(50, 20);
+	debugText_->Printf("playerRad:%3.1f", playerRad);
+	debugText_->SetPos(50, 40);
+	debugText_->Printf("playerPos:(%3.2f,%3.2f,%3.2f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
+	debugText_->SetPos(50, 60);
+	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
+	debugText_->SetPos(50, 100);
+	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);
 }
 
 Vector3 Player::GetWorldPosition()

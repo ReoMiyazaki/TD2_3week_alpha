@@ -29,6 +29,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	worldTransform_.Initialize();
 	worldTransform_.translation_.y = 2.0f * i;
 	worldTransform_.rotation_.y = rotDist(engine);
+	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransform_.MatUpdate();
 
 }
@@ -51,17 +52,17 @@ void Enemy::Draw(ViewProjection viewProjection)
 
 }
 
-void Enemy::DebugTex(int i)
+void Enemy::DrawDebugText(int i)
 {
 	debugText_->SetPos(50, 200 + 20 * i);
 	debugText_->Printf("enemy_[%d]->pos.y : %3.2f", i, worldTransform_.translation_.y);
 	debugText_->SetPos(800, 250 + 20 * i);
-	debugText_->Printf("isHit[%d] : %d", i, isHit);
+	debugText_->Printf("isHit[%d] : %d", i, isCollision_);
 }
 
 void Enemy::OnCollision()
 {
-	isHit = 1;
+	isCollision_ = 1;
 }
 
 Vector3 Enemy::GetWorldPosition(int i)

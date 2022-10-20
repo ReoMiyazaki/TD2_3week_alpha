@@ -40,10 +40,6 @@ void EnemyBullet::Update(PlayerState state)
 		enemyBullet_.translation_.x += bulletSpeed.x;
 		enemyBullet_.translation_.z += bulletSpeed.z;
 	}
-	debugText_->SetPos(500, 20);
-	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
-	debugText_->SetPos(500, 40);
-	debugText_->Printf("isFire:[%d]", isFire);
 	enemyBullet_.MatUpdate();
 }
 
@@ -53,6 +49,14 @@ void EnemyBullet::Draw(ViewProjection viewProjection)
 	{
 		model_->Draw(enemyBullet_, viewProjection);
 	}
+}
+
+void EnemyBullet::DrawDebugText()
+{
+	debugText_->SetPos(500, 20);
+	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
+	debugText_->SetPos(500, 40);
+	debugText_->Printf("isFire:[%d]", isFire);
 }
 
 Vector3 EnemyBullet::GetWorldPosition()
