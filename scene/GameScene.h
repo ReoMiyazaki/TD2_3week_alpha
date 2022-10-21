@@ -14,6 +14,8 @@
 #include "Camera.h"
 #include "EnemyBullet.h"
 
+
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -76,6 +78,8 @@ class GameScene {
 	
 	uint32_t texture_ = 0;
 	uint32_t whiteTexture_ = 0;
+
+	
 
 	/// <summary>
 	/// ゲームシーン用

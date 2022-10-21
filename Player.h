@@ -33,6 +33,11 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewProjection_);
 
+	/// <summary>
+	/// デバック用テキスト専用の関数
+	/// </summary>
+	void DrawDebugText();
+
 	float GetRadian()const { return playerRad; }
 
 	// ワールド座標を取得
@@ -41,6 +46,12 @@ public:
 	Matrix4 GetMatrix() { return player_.matWorld_; };
 
 	PlayerState GetPlayerState()const { return state; }
+
+	WorldTransform GetWorldTransform() { return player_; };
+
+	Vector3 pos = GetWorldTransform().translation_;
+
+	
 
 private:
 	WorldTransform player_;

@@ -78,6 +78,14 @@ void EnemyBullet::Draw(ViewProjection viewProjection)
 	}
 }
 
+void EnemyBullet::DrawDebugText()
+{
+	debugText_->SetPos(500, 20);
+	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
+	debugText_->SetPos(500, 40);
+	debugText_->Printf("isFire:[%d]", isFire);
+}
+
 Vector3 EnemyBullet::GetWorldPosition()
 {
 	//ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚é‚½‚ß‚Ì•Ï”

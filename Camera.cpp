@@ -109,7 +109,12 @@ void Camera::Update(float playerRadius, PlayerState state)
 
 void Camera::Draw()
 {
-	/*debugText_->SetPos(800, 20);
+	
+}
+
+void Camera::DrawDebugText()
+{
+	debugText_->SetPos(800, 20);
 	debugText_->Printf("cameraPos:[%3.2f][%3.2f]", cameraPos.x, cameraPos.z);
 	debugText_->SetPos(800, 40);
 	debugText_->Printf("cameraPosMemory:[%3.2f][%3.2f]", cameraPosMemory.x, cameraPosMemory.z);
@@ -125,8 +130,6 @@ void Camera::Draw()
 	//	debugText_->Printf("timeRate:[%f]", timeRate);
 	//	debugText_->SetPos(800, 190);
 	//	debugText_->Printf("endTimer:[%f]", endTimer);
-
-
 }
 
 float Camera::EZ(float start, float end, float timer)

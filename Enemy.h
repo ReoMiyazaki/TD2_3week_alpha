@@ -7,7 +7,7 @@
 #include "ViewProjection.h"
 #include <cassert>
 
-class Enemy 
+class Enemy
 {
 public:
 	/// <summary>
@@ -17,12 +17,12 @@ public:
 	/// <param name="textureHandle"></param>
 	/// <param name="i">敵キャラの番号</param>
 	void Initialize(Model* model, uint32_t textureHandle, int i);
-	
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void UpDate(int i);
-	
+
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -30,9 +30,9 @@ public:
 	void Draw(ViewProjection viewProjection);
 
 	/// <summary>
-	/// デバック用テキスト
+	/// デバック用テキスト専用の関数
 	/// </summary>
-	void DebugTex(int i);
+	void DrawDebugText(int i);
 
 	/// <summary>
 	/// 当たり判定
@@ -48,6 +48,11 @@ public:
 
 	Matrix4 GetMatrix() { return worldTransform_.matWorld_; };
 
+	WorldTransform GetWorldTransform() { return worldTransform_; };
+
+	Vector3 pos = GetWorldTransform().translation_;
+	Vector3 scale = GetWorldTransform().scale_;
+
 private:
 	WorldTransform worldTransform_;
 	// モデル
@@ -56,7 +61,6 @@ private:
 	uint32_t textureHandle_ = 0u;
 
 	DebugText* debugText_ = nullptr;
-
-	int isHit = 0;
+	int isCollision_ = 0;
 };
 
