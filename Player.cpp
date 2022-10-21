@@ -146,8 +146,8 @@ void Player::Update(float moveCircleRadius)
 		}
 
 
-		debugText_->SetPos(50, 100);
-		debugText_->Printf("pos - afterpos:(%d,%d,%d)", a, 0, b);
+		/*debugText_->SetPos(50, 100);
+		debugText_->Printf("pos - afterpos:(%d,%d,%d)", a, 0, b);*/
 
 
 
@@ -180,12 +180,12 @@ void Player::Draw(ViewProjection viewProjection_)
 		model_->Draw(playerMoveLine[i], viewProjection_);
 	}
 	// デバッグフォント
-	debugText_->SetPos(50, 20);
+	/*debugText_->SetPos(50, 20);
 	debugText_->Printf("playerRad:%3.1f", playerRad);
 	debugText_->SetPos(50, 40);
 	debugText_->Printf("playerPos:(%3.2f,%3.2f,%3.2f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 60);
-	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
+	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);*/
 
 //	debugText_->SetPos(50, 70);
 //	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);

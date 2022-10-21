@@ -11,7 +11,7 @@ class EnemyBullet
 {
 public:
 	void Initialize(Model* model, uint32_t textureHandle);
-	void Update(PlayerState state);
+	void Update(float moveCircle, PlayerState state);
 	void Draw(ViewProjection viewProjection);
 
 	// ワールド座標を取得
@@ -25,7 +25,7 @@ private:
 	Input* input_ = nullptr;
 
 	//弾速度
-	Vector3 bulletSpeed = { 0.2f,0.0f,0.2f };
+	Vector3 bulletSpeed = { 0.0f,0.0f,0.2f };
 	//フラグ
 	int isFire = 0;
 };
