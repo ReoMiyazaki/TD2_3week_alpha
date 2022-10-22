@@ -16,12 +16,7 @@ public:
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
 	void Initialize(Model* model, uint32_t textureHandle);
-
-	/// <summary>
-	/// 更新処理
-	/// </summary>
-	/// <param name="state"></param>
-	void Update(PlayerState state);
+	void Update(float moveCircle, PlayerState state);
 
 	/// <summary>
 	/// 描画処理
@@ -45,7 +40,7 @@ private:
 	Input* input_ = nullptr;
 
 	//弾速度
-	Vector3 bulletSpeed = { 0.2f,0.0f,0.2f };
+	Vector3 bulletSpeed = { 0.0f,0.0f,0.2f };
 	//フラグ
 	int isFire = 0;
 };

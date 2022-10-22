@@ -82,8 +82,9 @@ void GameScene::Update() {
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->UpDate(i);
+		
 	}
-	enemyBullet_->Update(player_->GetPlayerState());
+	enemyBullet_->Update(moveCircleRadius , player_->GetPlayerState());
 	//	enemy_->UpDate();
 	//	enemy_->DebugTex();
 
@@ -98,7 +99,6 @@ void GameScene::Update() {
 
 	//デバッグフォント
 	debugText_->SetPos(50, 50);
-
 
 }
 
