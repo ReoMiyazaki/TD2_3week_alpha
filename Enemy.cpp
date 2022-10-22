@@ -62,7 +62,7 @@ void Enemy::DrawDebugText(int i)
 
 void Enemy::OnCollision()
 {
-	isCollision_ = 1;
+	isCollision_ = true;
 }
 
 Vector3 Enemy::GetWorldPosition(int i)

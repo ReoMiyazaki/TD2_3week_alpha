@@ -53,6 +53,8 @@ public:
 	Vector3 pos = GetWorldTransform().translation_;
 	Vector3 scale = GetWorldTransform().scale_;
 
+	bool IsCollision() const { return isCollision_; }
+
 private:
 	WorldTransform worldTransform_;
 	// ƒ‚ƒfƒ‹
@@ -61,6 +63,7 @@ private:
 	uint32_t textureHandle_ = 0u;
 
 	DebugText* debugText_ = nullptr;
-	int isCollision_ = 0;
+	// ‚ ‚½‚è”»’è
+	bool isCollision_ = false;
 };
 
