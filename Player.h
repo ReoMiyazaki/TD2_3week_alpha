@@ -49,9 +49,15 @@ public:
 
 	WorldTransform GetWorldTransform() { return player_; };
 
+	// 座標の格納用
 	Vector3 pos = GetWorldTransform().translation_;
 
-	
+	// 半径の格納用
+	Vector3 radiusu = GetWorldTransform().scale_;
+
+	// pos + radiusu / pos - collision を格納
+	Vector3 upCollision;
+	Vector3 downCollision;
 
 private:
 	WorldTransform player_;

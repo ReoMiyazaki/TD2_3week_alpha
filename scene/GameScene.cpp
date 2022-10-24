@@ -8,7 +8,13 @@ using namespace MathUtility;
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene()
+{
+	delete model_;
+	delete player_;
+	delete camera_;
+	//	delete enemy_;
+}
 
 void GameScene::Initialize() {
 
@@ -17,7 +23,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
-	texture_ = TextureManager::Load("mario.jpg");
+	texture_ = TextureManager::Load("daruma.jpg");
 	whiteTexture_ = TextureManager::Load("white1x1.png");
 
 	model_ = Model::Create();
@@ -70,9 +76,6 @@ void GameScene::Initialize() {
 
 	camera_->Initialize(player_->GetRadian());
 
-	texture_ = TextureManager::Load("mario.jpg");
-	whiteTexture_ = TextureManager::Load("white1x1.png");
-
 }
 
 void GameScene::Update() {
@@ -81,10 +84,10 @@ void GameScene::Update() {
 	camera_->Update(player_->GetRadian(), player_->GetPlayerState());
 	for (int i = 0; i < 10; i++)
 	{
-		enemy_[i]->UpDate(i);
-		
+		enemy_[i]->UpDate();
+
 	}
-	enemyBullet_->Update(moveCircleRadius , player_->GetPlayerState());
+	enemyBullet_->Update(moveCircleRadius, player_->GetPlayerState());
 	//	enemy_->UpDate();
 	//	enemy_->DebugTex();
 
@@ -131,17 +134,35 @@ void GameScene::Draw() {
 
 
 	player_->Draw(viewProjection_);
+//	player_->DrawDebugText();
 	camera_->Draw();
 	enemyBullet_->Draw(viewProjection_);
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_);
-		enemy_[i]->DrawDebugText(i);
+		//		enemy_[i]->DrawDebugText(i);
 	}
 
 	for (int i = 0; i < 64; i++) {
 		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
 	}
+
+//	debugText_->SetPos(50, 200);
+//	debugText_->Printf("player(posX,posY,posZ) = (%3.1f,%3.1f,%3.1f)", player_->pos.x, player_->pos.y, player_->pos.z);
+//	debugText_->SetPos(50, 220);
+//	debugText_->Printf("player(collisionX,collisionY,collisionZ) = (%3.0f,%3.0f,%3.0f)",
+//		player_->upCollision.x, player_->upCollision.y, player_->upCollision.z);
+//	debugText_->SetPos(50, 240);
+//	debugText_->Printf("player(collisionX,collisionY,collisionZ) = (%3.0f,%3.0f,%3.0f)",
+//		player_->downCollision.x, player_->downCollision.y, player_->downCollision.z);
+//
+//	debugText_->SetPos(50, 260);
+//	debugText_->Printf("player(collisionX,collisionY,collisionZ) = (%3.0f,%3.0f,%3.0f)",
+//		enemy_[0]->upCollision.x, enemy_[0]->upCollision.y, enemy_[0]->upCollision.z);
+//	debugText_->SetPos(50, 280);
+//	debugText_->Printf("player(collisionX,collisionY,collisionZ) = (%3.0f0,%3.0f,%3.0f)",
+//		enemy_[0]->downCollision.x, enemy_[0]->downCollision.y, enemy_[0]->downCollision.z);
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -250,24 +271,20 @@ void GameScene::CheckAllCollisions()
 	//}
 #pragma endregion
 
-	//for (int i = 0; i < 10; i++)
-	//{
-//	//	Matrix4 matA = player_->GetMatrix();
-//	//	Matrix4 matB = enemy_[i]->GetMatrix();
-	//	
-	//
-	//
-	//	if (lowerSole[i] < matA.m[0][0] + matB.m[0][0] < upperSole[i])
-	//	{
-	//		enemy_[i]->OnCollision();
-	//	}
-	//}
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (player_->pos.y <= (enemy_[i]->pos.y + enemy_[i]->scale.y) && (enemy_[i]->pos.y - enemy_[i]->scale.y) <= player_->pos.y)
+		if (player_->upCollision.x > enemy_[i]->downCollision.x && player_->downCollision.x < enemy_[i]->upCollision.x)
 		{
-			enemy_[i]->OnCollision();
+			if (player_->upCollision.z > enemy_[i]->downCollision.z && player_->downCollision.z < enemy_[i]->upCollision.z)
+			{
+				if (player_->upCollision.y > enemy_[i]->downCollision.y && player_->downCollision.y < enemy_[i]->upCollision.y)
+				{
+					enemy_[i]->OnCollision();
+					debugText_->SetPos(800, 100 + 20 * i);
+					debugText_->Printf("Hit : %d",i);
+				}
+			}
 		}
 	}
 

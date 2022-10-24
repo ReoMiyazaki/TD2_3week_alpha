@@ -21,7 +21,7 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void UpDate(int i);
+	void UpDate();
 
 	/// <summary>
 	/// 描画処理
@@ -46,17 +46,24 @@ public:
 	// ワールド変換データ
 //	WorldTransform worldTransforms_[10];
 
-	Matrix4 GetMatrix() { return worldTransform_.matWorld_; };
+	Matrix4 GetMatrix() { return enemy_.matWorld_; };
 
-	WorldTransform GetWorldTransform() { return worldTransform_; };
+	WorldTransform GetWorldTransform() { return enemy_; };
 
+	// 座標の格納用
 	Vector3 pos = GetWorldTransform().translation_;
-	Vector3 scale = GetWorldTransform().scale_;
 
-	bool IsCollision() const { return isCollision_; }
+	// 半径の格納用
+	Vector3 radiusu = GetWorldTransform().scale_;
+
+	// pos + radiusu / pos - collision を格納
+	Vector3 upCollision;
+	Vector3 downCollision;
+
+	bool IsCollision() { return isCollision_; }
 
 private:
-	WorldTransform worldTransform_;
+	WorldTransform enemy_;
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル

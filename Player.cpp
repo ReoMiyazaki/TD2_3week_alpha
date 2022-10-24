@@ -9,6 +9,8 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 	model_ = Model::Create();
 	input_ = Input::GetInstance();
 
+	player_.scale_ = { 1.0f, 1.0f, 1.0f };
+
 	player_.Initialize();
 	playerRad = 0;
 
@@ -27,6 +29,9 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 		playerMoveLine[i].scale_ = { 0.1f,0.1f,0.1f };
 		playerMoveLine[i].MatUpdate();
 	}
+
+	// Vector3Œ^‚Ìradiusu‚Éscale_‚Ì’l‚ð“n‚·
+	radiusu = player_.scale_;
 }
 
 void Player::Update(float moveCircleRadius)
@@ -54,6 +59,9 @@ void Player::Update(float moveCircleRadius)
 			player_.rotation_.z = 0.0f;
 
 		}
+
+		// Vector3Œ^‚Ìpos‚Étranslation_‚Ì’l‚ð“n‚·
+		pos = GetWorldTransform().translation_;
 
 	}
 	//else if (state == PlayerState::Charge) {
@@ -96,6 +104,12 @@ void Player::Update(float moveCircleRadius)
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			state = PlayerState::dash;
+			// Vector3Œ^‚Ìpos‚Étranslation_‚Ì’l‚ð“n‚·
+			pos = GetWorldTransform().translation_;
+			// ã‰º(¶‰E)‚Ì“–‚½‚è”»’è‚ðŒvŽZ
+			upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
+			downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
+
 			player_.rotation_.y = 0.0f;
 			//Ž©‹@ˆÊ’u‚©‚ç180“x‰ñ“]‚µ‚½ˆÊ’u‚ðˆÚ“®ŒãÀ•W‚ÉÝ’è
 			afterPos.x = sin(PI / 180 * (180 + playerRad)) * moveCircleRadius;
@@ -111,6 +125,7 @@ void Player::Update(float moveCircleRadius)
 
 			player_.rotation_.y = playerRad * PI / 180.0f;
 		}
+		pos.y = player_.translation_.y;
 	}
 
 	// playerƒ_ƒbƒVƒ…ˆ—
@@ -159,10 +174,15 @@ void Player::Update(float moveCircleRadius)
 			player_.translation_.y = 0;
 			state = PlayerState::Idle;
 		}*/
+		// Vector3Œ^‚Ìpos‚Étranslation_‚Ì’l‚ð“n‚·
+		pos = GetWorldTransform().translation_;
 
+		upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
+		downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
 	}
 
 	player_.MatUpdate();
+
 }
 
 void Player::Draw(ViewProjection viewProjection_)
@@ -174,14 +194,14 @@ void Player::Draw(ViewProjection viewProjection_)
 		model_->Draw(playerMoveLine[i], viewProjection_);
 	}
 
-//	debugText_->SetPos(50, 70);
-//	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
-//	debugText_->SetPos(50, 90);
-//	debugText_->Printf("jumpPower:%f", jumpPower);
-//	debugText_->SetPos(50, 130);
-//	debugText_->Printf("dashSpeed:(%f,%f,%f)", dashSpeed.x, dashSpeed.y, dashSpeed.z);
-//	debugText_->SetPos(50, 170);
-//	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
+	//	debugText_->SetPos(50, 70);
+	//	debugText_->Printf("state:%d(0:Idle,1:Charge,2:Jump)", state);
+	//	debugText_->SetPos(50, 90);
+	//	debugText_->Printf("jumpPower:%f", jumpPower);
+	//	debugText_->SetPos(50, 130);
+	//	debugText_->Printf("dashSpeed:(%f,%f,%f)", dashSpeed.x, dashSpeed.y, dashSpeed.z);
+	//	debugText_->SetPos(50, 170);
+	//	debugText_->Printf("rotation_:(%f,%f,%f)", player_.rotation_.x, player_.rotation_.y, player_.rotation_.z);
 
 }
 
