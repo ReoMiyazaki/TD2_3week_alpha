@@ -26,16 +26,23 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	//	worldTransforms_[i].MatUpdate();
 	//}
 
-	worldTransform_.Initialize();
-	worldTransform_.translation_.y = 2.0f * i;
-	worldTransform_.rotation_.y = rotDist(engine);
-	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
-	worldTransform_.MatUpdate();
+	enemy_.Initialize();
+	enemy_.translation_.y = 2.0f * i;
+	enemy_.rotation_.y = rotDist(engine);
+	enemy_.scale_ = { 1.0f,1.0f,1.0f };
+	enemy_.MatUpdate();
+
+	// Vector3型のradiusuにscale_の値を渡す
+	radiusu = enemy_.scale_;
 
 }
 
-void Enemy::UpDate(int i)
+void Enemy::UpDate()
 {
+	// Vector3型のposにtranslation_の値を渡す
+	pos = GetWorldTransform().translation_;
+	upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
+	downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
 }
 
 void Enemy::Draw(ViewProjection viewProjection)
@@ -48,14 +55,14 @@ void Enemy::Draw(ViewProjection viewProjection)
 	//	debugText_->SetPos(50, 190 + 35 * i);
 	//	debugText_->Printf("isHit[%d] : %d", i, isHit);
 
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	model_->Draw(enemy_, viewProjection, textureHandle_);
 
 }
 
 void Enemy::DrawDebugText(int i)
 {
-	/*debugText_->SetPos(50, 200 + 20 * i);
-	debugText_->Printf("enemy_[%d]->pos.y : %3.2f", i, worldTransform_.translation_.y);
+	debugText_->SetPos(50, 200 + 20 * i);
+	debugText_->Printf("enemy_[%d]->pos.y : %3.2f", i, enemy_.translation_.y);
 	debugText_->SetPos(800, 250 + 20 * i);
 	debugText_->Printf("isHit[%d] : %d", i, isCollision_);*/
 }
@@ -71,9 +78,9 @@ Vector3 Enemy::GetWorldPosition(int i)
 	Vector3 worldPos[10];
 
 	// ワールド行列の平行移動成分を取得
-	worldPos[i].y = worldTransform_.matWorld_.m[3][1];
-	worldPos[i].z = worldTransform_.matWorld_.m[3][2];
-	worldPos[i].x = worldTransform_.matWorld_.m[3][0];
+	worldPos[i].y = enemy_.matWorld_.m[3][1];
+	worldPos[i].z = enemy_.matWorld_.m[3][2];
+	worldPos[i].x = enemy_.matWorld_.m[3][0];
 
 	return worldPos[i];
 }

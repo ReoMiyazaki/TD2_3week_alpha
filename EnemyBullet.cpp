@@ -59,14 +59,14 @@ void EnemyBullet::Update(float moveCircle, PlayerState state)
 	
 	enemyBullet_.MatUpdate();
 
-	debugText_->SetPos(20, 20);
-	debugText_->Printf("Angle:%f", bulletAngle);
-	debugText_->SetPos(20, 40);
-	debugText_->Printf("rotation:(%f,%f,%f)", enemyBullet_.rotation_.x, enemyBullet_.rotation_.y, enemyBullet_.rotation_.z);
-	debugText_->SetPos(20, 60);
-	debugText_->Printf("bulletAngle:%f", bulletAngle);
-	debugText_->SetPos(20, 80);
-	debugText_->Printf("bulletPos:(%f,%f,%f)", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
+	//debugText_->SetPos(20, 20);
+	//debugText_->Printf("Angle:%f", bulletAngle);
+	//debugText_->SetPos(20, 40);
+	//debugText_->Printf("rotation:(%f,%f,%f)", enemyBullet_.rotation_.x, enemyBullet_.rotation_.y, enemyBullet_.rotation_.z);
+	//debugText_->SetPos(20, 60);
+	//debugText_->Printf("bulletAngle:%f", bulletAngle);
+	//debugText_->SetPos(20, 80);
+	//debugText_->Printf("bulletPos:(%f,%f,%f)", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
 	
 }
 
