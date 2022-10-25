@@ -267,7 +267,12 @@ void GameScene::CheckAllCollisions()
 	{
 		if (player_->pos.y <= (enemy_[i]->pos.y + enemy_[i]->scale.y) && (enemy_[i]->pos.y - enemy_[i]->scale.y) <= player_->pos.y)
 		{
-			enemy_[i]->OnCollision();
+			enemy_[i]->OnCollision(); // 当たり判定呼び出し
+
+			// 角度の計算
+
+			//もし棘のある面から90度以内から侵入したら弾く
+
 		}
 	}
 

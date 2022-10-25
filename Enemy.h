@@ -7,6 +7,13 @@
 #include "ViewProjection.h"
 #include <cassert>
 
+enum class State { //“G‚Ìó‘Ô
+
+	needle, // j	0
+	normal, // •’Ê	1
+	cole	// ƒRƒA	2
+};
+
 class Enemy
 {
 public:
@@ -65,5 +72,7 @@ private:
 	DebugText* debugText_ = nullptr;
 	// ‚ ‚½‚è”»’è
 	bool isCollision_ = false;
+
+	State state;
 };
 

@@ -57,7 +57,7 @@ void Enemy::DrawDebugText(int i)
 	/*debugText_->SetPos(50, 200 + 20 * i);
 	debugText_->Printf("enemy_[%d]->pos.y : %3.2f", i, worldTransform_.translation_.y);
 	debugText_->SetPos(800, 250 + 20 * i);
-	debugText_->Printf("isHit[%d] : %d", i, isCollision_);
+	debugText_->Printf("isHit[%d] : %d", i, isCollision_);*/
 }
 
 void Enemy::OnCollision()
