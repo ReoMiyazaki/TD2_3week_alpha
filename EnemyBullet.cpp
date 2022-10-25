@@ -46,13 +46,6 @@ void EnemyBullet::Update(float moveCircle, PlayerState state)
 	}
 	if (isFire == 1)
 	{
-		if (enemyBullet_.translation_.x >= moveCircle || enemyBullet_.translation_.x <= -moveCircle)
-		{
-			if (enemyBullet_.translation_.y >= moveCircle || enemyBullet_.translation_.y <= -moveCircle)
-			{
-				bulletSpeed = { 0.0f,0.0f,0.0f };
-			}
-		}
 		// ‚»‚êˆÈŠO‚È‚ç’e‚ði‚ß‚é
 		enemyBullet_.translation_ += bulletSpeed;
 	}
@@ -82,8 +75,8 @@ void EnemyBullet::DrawDebugText()
 {
 	debugText_->SetPos(500, 20);
 	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
-	debugText_->SetPos(500, 40);
-	debugText_->Printf("isFire:[%d]", isFire);
+	debugText_->SetPos(50, 40);
+	debugText_->Printf("Speed:[%f]", bulletSpeed.z);
 }
 
 Vector3 EnemyBullet::GetWorldPosition()

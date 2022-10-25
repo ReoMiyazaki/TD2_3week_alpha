@@ -6,6 +6,7 @@
 #include "ViewProjection.h"
 #include <cassert>
 #include "Player.h"
+#include <list>
 
 class EnemyBullet
 {

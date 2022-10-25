@@ -37,8 +37,12 @@ void GameScene::Initialize() {
 		enemy_[i] = new Enemy();
 		enemy_[i]->Initialize(model_, texture_, i);
 	}
-	enemyBullet_ = new EnemyBullet();
-	enemyBullet_->Initialize(model_, texture_);
+	for (int i = 0; i < 4; i++)
+	{
+		enemyBullet_[i] = new EnemyBullet();
+		enemyBullet_[i]->Initialize(model_, texture_);
+	}
+	
 
 	//	enemy_ = new Enemy();
 	//	enemy_->Initialize(model_, texture_);
@@ -87,7 +91,11 @@ void GameScene::Update() {
 		enemy_[i]->UpDate();
 
 	}
-	enemyBullet_->Update(moveCircleRadius, player_->GetPlayerState());
+	for (int i = 0; i < 4; i++)
+	{
+		enemyBullet_[i]->Update(moveCircleRadius, player_->GetPlayerState());
+	}
+
 	//	enemy_->UpDate();
 	//	enemy_->DebugTex();
 
@@ -136,7 +144,11 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 //	player_->DrawDebugText();
 	camera_->Draw();
-	enemyBullet_->Draw(viewProjection_);
+	for (int i = 0; i < 4; i++)
+	{
+		enemyBullet_[i]->Draw(viewProjection_);
+	}
+
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_);
