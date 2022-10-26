@@ -34,7 +34,7 @@ public:
 	/// 当たり判定
 	/// </summary>
 	/// <returns></returns>
-	void OnCollision(int enemyState,int needleCount);
+	void OnCollision_(int enemyState,int needleCount);
 
 	/// <summary>
 	/// 描画処理

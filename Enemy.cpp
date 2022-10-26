@@ -75,8 +75,8 @@ void Enemy::DrawDebugText(int i)
 {
 	debugText_->SetPos(50, 100 + 20 * i);
 	//debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
-	debugText_->SetPos(50, 100 + 20 * i);
-	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);
+	/*debugText_->SetPos(50, 100 + 20 * i);
+	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);*/
 
 	debugText_->SetPos(50, 250 - 20 * i);
 	debugText_->Printf("state[%d] : %d", i , state);

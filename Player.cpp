@@ -251,7 +251,7 @@ Vector3 Player::GetWorldPosition()
 	return worldPos;
 }
 
-void Player::OnCollision(int enemyState, int needleCount)
+void Player::OnCollision_(int enemyState, int needleCount)
 {
 	isCollision_ = true;
 	if (enemyState == 1 && needleCount < 2 && isCollision_ == true)

@@ -219,7 +219,7 @@ void GameScene::CheckAllCollisions()
 					if (player_->upCollision.y > enemy_[i]->downCollision.y && player_->downCollision.y < enemy_[i]->upCollision.y)
 					{
 						enemy_[i]->OnCollision();
-						player_->OnCollision();
+						player_->OnCollision_(enemy_[i]->GetState_(), enemy_[i]->GetCount());
 					}
 				}
 			}
@@ -230,7 +230,7 @@ void GameScene::CheckAllCollisions()
 				{
 					enemy_[j]->pos.y = enemy_[j - 1]->pos.y;
 					enemy_[j]->SetWorldTransform(enemy_[j]->pos);
-					debugText_->Printf("Hit : %d",i);
+					/*debugText_->Printf("Hit : %d",i);*/
 				}
 				enemy_[i]->pos.y = -500.0f;
 				enemy_[i]->SetWorldTransform(enemy_[i]->pos);
