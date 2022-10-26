@@ -44,40 +44,40 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	
 	
 	enemy_.Initialize();
+	enemy_.scale_ = { 2.0f,2.0f,2.0f };
+	enemy_.translation_.y = (enemy_.scale_.y * 2) * i;
 	enemy_.rotation_.y = rotDist(engine);
-	enemy_.scale_ = { 1.0f,1.0f,1.0f };
-	enemy_.translation_.y = 2.0f * i;
 	enemy_.MatUpdate();
 
 	// Vector3型のradiusuにscale_の値を渡す
 	radiusu = enemy_.scale_;
+
+	isCollision_ = false;
+
 	needleCount_ = 0;
 }
 
-void Enemy::UpDate()
+void Enemy::UpDate(int i)
 {
-	// Vector3型のposにtranslation_の値を渡す
-	pos = GetWorldTransform().translation_;
-	upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
-	downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
+		// Vector3型のposにtranslation_の値を渡す
+		pos = GetWorldTransform().translation_;
+		upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
+		downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
+		enemy_.MatUpdate();
 }
 
 void Enemy::Draw(ViewProjection viewProjection)
 {
-	//	for (int i = 0; i < 10; i++)
-	//	{
-	//		model_->Draw(worldTransforms_[i], viewProjection, textureHandle_);
-	//	}
-	//	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	//	debugText_->SetPos(50, 190 + 35 * i);
-	//	debugText_->Printf("isHit[%d] : %d", i, isHit);
-
 	model_->Draw(enemy_, viewProjection, textureHandle_);
-
 }
 
 void Enemy::DrawDebugText(int i)
 {
+	debugText_->SetPos(50, 100 + 20 * i);
+	//debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
+	debugText_->SetPos(50, 100 + 20 * i);
+	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);
+
 	debugText_->SetPos(50, 250 - 20 * i);
 	debugText_->Printf("state[%d] : %d", i , state);
 	debugText_->SetPos(800, 250 - 20 * i);
@@ -105,15 +105,7 @@ void Enemy::OnCollision()
 	}
 }
 
-Vector3 Enemy::GetWorldPosition(int i)
+void Enemy::SetWorldTransform(Vector3 pos)
 {
-	//ワールド座標を入れるための変数
-	Vector3 worldPos[10];
-
-	// ワールド行列の平行移動成分を取得
-	worldPos[i].y = enemy_.matWorld_.m[3][1];
-	worldPos[i].z = enemy_.matWorld_.m[3][2];
-	worldPos[i].x = enemy_.matWorld_.m[3][0];
-
-	return worldPos[i];
+	enemy_.translation_ = pos;
 }

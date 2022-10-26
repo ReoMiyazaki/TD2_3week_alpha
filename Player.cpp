@@ -95,6 +95,8 @@ void Player::Update(float moveCircleRadius)
 	// playerジャンプ処理
 	else if (state == PlayerState::Jump)
 	{
+
+		isCollision_ = false;
 		// チャージされたジャンプ力でジャンプ
 		player_.translation_.y += jumpPower;
 		jumpPower--;
@@ -229,6 +231,11 @@ void Player::DrawDebugText()
 	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
 	debugText_->SetPos(50, 100);
 	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);*/
+}
+
+void Player::OnCollision()
+{
+	isCollision_ = true;
 }
 
 Vector3 Player::GetWorldPosition()

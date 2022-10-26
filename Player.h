@@ -46,6 +46,12 @@ public:
 	/// </summary>
 	void DrawDebugText();
 
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	/// <returns></returns>
+	void OnCollision();
+
 	float GetRadian()const { return playerRad; }
 
 	// ワールド座標を取得
@@ -66,6 +72,8 @@ public:
 	// pos + radiusu / pos - collision を格納
 	Vector3 upCollision;
 	Vector3 downCollision;
+
+	bool IsCollision() { return isCollision_; }
 
 private:
 	WorldTransform player_;
