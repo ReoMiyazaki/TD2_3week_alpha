@@ -42,6 +42,7 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	bool GetOnCollision();
 	// 座標の格納用
 	Vector3 pos = GetWorldTransform().translation_;
 

@@ -32,6 +32,8 @@ class Vector3 {
 	Vector3& operator/=(float s);
 
 	bool operator==(const Vector3 v);
+
+	const Vector3 lerp(const Vector3& start, const Vector3& end, const float Timer);
 };
 
 // 2項演算子オーバーロード

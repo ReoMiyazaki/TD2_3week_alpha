@@ -291,8 +291,9 @@ void GameScene::CheckAllCollisions()
 				if (player_->upCollision.y > enemyBullet_[i]->downCollision.y && player_->downCollision.y < enemyBullet_[i]->upCollision.y)
 				{
 					enemyBullet_[i]->OnCollision();
+					player_->OnCollision_B();
 					debugText_->SetPos(800, 100 + 20 * i);
-					//debugText_->Printf("Hit : %d", i);
+					debugText_->Printf("Hit : %d", i);
 				}
 			}
 		}

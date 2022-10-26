@@ -65,7 +65,7 @@ void Enemy::Draw(ViewProjection viewProjection)
 void Enemy::DrawDebugText(int i)
 {
 	debugText_->SetPos(50, 100 + 20 * i);
-	debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
+	//debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
 	/*debugText_->SetPos(50, 100 + 20 * i);
 	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);*/
 
