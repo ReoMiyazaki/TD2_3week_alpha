@@ -10,7 +10,8 @@ void EnemyBullet::Initialize(Model* model, uint32_t textureHandle)
 	input_ = Input::GetInstance();
 	enemyBullet_.Initialize();
 	enemyBullet_.translation_ = { 0.0f,0.0f,0.0f };
-
+	enemyBullet_.scale_ = { 0.8f,0.8f,0.8f };
+	radius = enemyBullet_.scale_;
 }
 
 void EnemyBullet::Update(PlayerState state)
@@ -23,6 +24,7 @@ void EnemyBullet::Update(PlayerState state)
 	uniform_real_distribution<float> rotDist(5.0f, 15.0f);
 	uniform_real_distribution<float> angleDist(0.0f, 180.0f);
 	
+	Vector3 pos = GetWorldTransform().translation_;
 	//プレイヤがジャンプしたなら
 	if (state == PlayerState::Jump)
 	{
@@ -51,6 +53,8 @@ void EnemyBullet::Update(PlayerState state)
 		{
 			if (enemyBullet_.translation_.z >= -14.0f && enemyBullet_.translation_.z <= 14.0f)
 			{
+				enemyBullet_.rotation_.x += 0.2f;
+				enemyBullet_.rotation_.z += 0.2f;
 				enemyBullet_.translation_ += bulletSpeed;
 			}
 		}
@@ -73,6 +77,8 @@ void EnemyBullet::Update(PlayerState state)
 			aliveTimer = 0.0f;
 			isFire = 0;
 		}
+		upCollision = { pos.x + radius.x, pos.y + radius.y, pos.z + radius.z };
+		downCollision = { pos.x - radius.x, pos.y - radius.y, pos.z - radius.z };
 	}
 	
 	enemyBullet_.MatUpdate();
@@ -94,6 +100,11 @@ void EnemyBullet::Draw(ViewProjection viewProjection)
 	{
 		model_->Draw(enemyBullet_, viewProjection);
 	}
+}
+
+void EnemyBullet::OnCollision()
+{
+	isCollision_ = true;
 }
 
 void EnemyBullet::DrawDebugText()

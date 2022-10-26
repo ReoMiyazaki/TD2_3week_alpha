@@ -301,6 +301,21 @@ void GameScene::CheckAllCollisions()
 		}
 	}
 
+	for (int i = 0; i < 4; i++)
+	{
+		if (player_->upCollision.x > enemyBullet_[i]->downCollision.x && player_->downCollision.x < enemyBullet_[i]->upCollision.x)
+		{
+			if (player_->upCollision.z > enemyBullet_[i]->downCollision.z && player_->downCollision.z < enemyBullet_[i]->upCollision.z)
+			{
+				if (player_->upCollision.y > enemyBullet_[i]->downCollision.y && player_->downCollision.y < enemyBullet_[i]->upCollision.y)
+				{
+					enemyBullet_[i]->OnCollision();
+					debugText_->SetPos(800, 100 + 20 * i);
+					debugText_->Printf("Hit : %d", i);
+				}
+			}
+		}
+	}
 }
 
 
