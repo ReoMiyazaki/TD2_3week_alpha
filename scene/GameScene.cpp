@@ -93,7 +93,7 @@ void GameScene::Update() {
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		enemyBullet_[i]->Update(moveCircleRadius, player_->GetPlayerState());
+		enemyBullet_[i]->Update(player_->radiusu, player_->GetPlayerState());
 	}
 
 	//	enemy_->UpDate();

@@ -13,7 +13,7 @@ void EnemyBullet::Initialize(Model* model, uint32_t textureHandle)
 
 }
 
-void EnemyBullet::Update(float moveCircle, PlayerState state)
+void EnemyBullet::Update(Vector3 moveRadius, PlayerState state)
 {
 	float bulletAngle = 0.0f;
 	float bulletS = 0.2f;
@@ -47,7 +47,13 @@ void EnemyBullet::Update(float moveCircle, PlayerState state)
 	if (isFire == 1)
 	{
 		// ‚»‚êˆÈŠO‚È‚ç’e‚ði‚ß‚é
-		enemyBullet_.translation_ += bulletSpeed;
+		if (enemyBullet_.translation_.x >= -14.0f && enemyBullet_.translation_.x <= 14.0f)
+		{
+			if (enemyBullet_.translation_.z >= -14.0f && enemyBullet_.translation_.z <= 14.0f)
+			{
+				enemyBullet_.translation_ += bulletSpeed;
+			}
+		}
 	}
 	
 	enemyBullet_.MatUpdate();
