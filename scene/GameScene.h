@@ -1,19 +1,20 @@
 ﻿#pragma once
 
 #include "Audio.h"
+#include "Camera.h"
 #include "DirectXCommon.h"
 #include "DebugText.h"
+#include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Input.h"
 #include "Model.h"
+#include "Player.h"
+#include "ResultScene.h"
 #include "SafeDelete.h"
+#include "TitleScene.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Camera.h"
-#include "EnemyBullet.h"
-
 
 
 /// <summary>
@@ -52,6 +53,11 @@ class GameScene {
 	/// </summary>
 	void CheckAllCollisions();
 
+	/// <summary>
+	/// リセット処理
+	/// </summary>
+	void ReSet();
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -72,11 +78,15 @@ class GameScene {
 	Vector2 moveCircle = {};
 	float moveCircleRadius = 20.0f;
 
-	
 	uint32_t texture_ = 0;
 	uint32_t whiteTexture_ = 0;
 
-	
+	Scene scene_ = Scene::TitleScene;
+
+	TitleScene* titleSclene_ = nullptr;
+	ResultScene* resultScene_ = nullptr;
+
+	int dethCount = 0;
 
 	/// <summary>
 	/// ゲームシーン用

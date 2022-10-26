@@ -174,25 +174,12 @@ void Player::Update(float moveCircleRadius)
 			state = PlayerState::Jump;
 			jumpPower = 0.0f;
 		}
-		/*if (player_.translation_.x >= afterPos.x && player_.translation_.z >= afterPos.z ||
-			player_.translation_.x >= afterPos.x && afterPos.z >= player_.translation_.z ||
-			afterPos.x >= player_.translation_.x && player_.translation_.z >= afterPos.z ||
-			afterPos.x >= player_.translation_.x && afterPos.z >= player_.translation_.z) {
-			dashSpeed = { 0,0,0 };
-			player_.translation_.x = afterPos.x;
-			player_.translation_.z = afterPos.z;
-			player_.translation_.y--;
-		}
-		if (player_.translation_.y < 0) {
-			jumpPower = 0.0f;
-			player_.translation_.y = 0;
-			state = PlayerState::Idle;
-		}*/
+		
 		// Vector3Œ^‚Ìpos‚Étranslation_‚Ì’l‚ð“n‚·
 		pos = GetWorldTransform().translation_;
 
-		upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
-		downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
+		upCollision = pos;
+		downCollision = pos;
 
 		
 	}

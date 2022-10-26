@@ -60,6 +60,7 @@ public:
 
 	State GetState() { return state; }
 	void SetWorldTransform(Vector3 pos);
+	void SetDethCount(int dethCount);
 
 	// À•W‚ÌŠi”[—p
 	Vector3 pos = GetWorldTransform().translation_;

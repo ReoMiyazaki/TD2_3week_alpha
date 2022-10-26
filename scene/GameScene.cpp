@@ -13,7 +13,8 @@ GameScene::~GameScene()
 	delete model_;
 	delete player_;
 	delete camera_;
-	//delete enemy_;
+	delete titleSclene_;
+	delete resultScene_;
 }
 
 void GameScene::Initialize() {
@@ -25,6 +26,12 @@ void GameScene::Initialize() {
 
 	texture_ = TextureManager::Load("daruma.jpg");
 	whiteTexture_ = TextureManager::Load("white1x1.png");
+
+	titleSclene_ = new TitleScene();
+	titleSclene_->Initialize();
+
+	resultScene_ = new ResultScene();
+	resultScene_->Initialize();
 
 	model_ = Model::Create();
 	player_ = new Player();
@@ -72,63 +79,62 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	if (input_->PushKey(DIK_R))
-	{
-		player_->Initialize(moveCircleRadius, moveCircle);
 
-		// 敵の初期化
+	switch (scene_)
+	{
+	case Scene::TitleScene:
+		titleSclene_->Update(scene_);
+		break;
+
+	case Scene::GameScene:
+		if (input_->PushKey(DIK_R))
+		{
+			ReSet();
+		}
+
+		if (input_->PushKey(DIK_Q))
+		{
+			scene_ = Scene::ResultScene;
+		}
+
+		player_->Update(moveCircleRadius);
+		camera_->Update(player_->GetRadian(), player_->GetPlayerState());
 		for (int i = 0; i < 10; i++)
 		{
-			enemy_[i]->Initialize(model_, texture_, i);
+			enemy_[i]->UpDate(i);
+
 		}
 		for (int i = 0; i < 4; i++)
 		{
-			enemyBullet_[i]->Initialize(model_, texture_);
+			enemyBullet_[i]->Update(player_->GetPlayerState());
 		}
 
-		for (int i = 0; i < 64; i++) {
-			randObj[i].Initialize();
-			Vector3 pos;
-			pos.x = Random(-50.0f, 50.0f);
-			pos.y = Random(-50.0f, 50.0f);
-			pos.z = Random(-50.0f, 50.0f);
-			randObj[i].translation_ = pos;
-			pos.x = Random(0.0f, 360.0f);
-			pos.y = Random(0.0f, 360.0f);
-			pos.z = Random(0.0f, 360.0f);
-			randObj[i].rotation_ = pos;
-			randObj[i].scale_ = { 0.1f,0.1f,0.1f };
-			randObj[i].MatUpdate();
+		viewProjection_.eye = camera_->GetCameraPos();
+
+		viewProjection_.UpdateMatrix();
+
+		if (player_->GetPlayerState() == PlayerState::dash)
+		{
+			CheckAllCollisions();
+		}
+		//デバッグフォント
+		debugText_->SetPos(50, 50);
+		debugText_->Printf("dethCount : %d", dethCount);
+
+		if (dethCount > 9)
+		{
+			scene_ = Scene::ResultScene;
 		}
 
-		viewProjection_.Initialize();
+		break;
 
-		camera_->Initialize(player_->GetRadian());
-	}
-
-	player_->Update(moveCircleRadius);
-	camera_->Update(player_->GetRadian(), player_->GetPlayerState());
-	for (int i = 0; i < 10; i++)
-	{
-		enemy_[i]->UpDate(i);
+	case Scene::ResultScene:
+		resultScene_->Update(scene_);
+		ReSet();
+		break;
 
 	}
-	for (int i = 0; i < 4; i++)
-	{
-		enemyBullet_[i]->Update(player_->GetPlayerState());
-	}
 
-	viewProjection_.eye = camera_->GetCameraPos();
-
-	viewProjection_.UpdateMatrix();
-
-	if (player_->GetPlayerState() == PlayerState::dash)
-	{
-		CheckAllCollisions();
-	}
-
-	//デバッグフォント
-	debugText_->SetPos(50, 50);
 
 }
 
@@ -159,28 +165,41 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-
-	player_->Draw(viewProjection_);
-	player_->DrawDebugText();
-	camera_->Draw();
-	for (int i = 0; i < 4; i++)
+	switch (scene_)
 	{
-		enemyBullet_[i]->Draw(viewProjection_);
-		//enemyBullet_[i]->DrawDebugText();
-	}
+	case Scene::TitleScene:
+		break;
 
-	for (int i = 0; i < 10; i++)
-	{
-		if (enemy_[i]->IsCollision() != true)
+	case Scene::GameScene:
+		player_->Draw(viewProjection_);
+		player_->DrawDebugText();
+		camera_->Draw();
+		for (int i = 0; i < 4; i++)
 		{
-			enemy_[i]->Draw(viewProjection_);
+			enemyBullet_[i]->Draw(viewProjection_);
+			//enemyBullet_[i]->DrawDebugText();
 		}
-		enemy_[i]->DrawDebugText(i);
+
+		for (int i = 0; i < 10; i++)
+		{
+			if (enemy_[i]->IsCollision() != true)
+			{
+				enemy_[i]->Draw(viewProjection_);
+			}
+			enemy_[i]->DrawDebugText(i);
+		}
+
+		for (int i = 0; i < 64; i++) {
+			model_->Draw(randObj[i], viewProjection_, whiteTexture_);
+		}
+		break;
+
+	case Scene::ResultScene:
+		ReSet();
+		break;
 	}
 
-	for (int i = 0; i < 64; i++) {
-		model_->Draw(randObj[i], viewProjection_, whiteTexture_);
-	}
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -193,6 +212,21 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	switch (scene_)
+	{
+	case Scene::TitleScene:
+		titleSclene_->Draw();
+		break;
+
+	case Scene::GameScene:
+		break;
+
+
+	case Scene::ResultScene:
+		resultScene_->Draw();
+		break;
+	}
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
@@ -220,6 +254,7 @@ void GameScene::CheckAllCollisions()
 					{
 						enemy_[i]->OnCollision();
 						player_->OnCollision_(enemy_[i]->GetState_(), enemy_[i]->GetCount());
+						dethCount++;
 					}
 				}
 			}
@@ -235,6 +270,15 @@ void GameScene::CheckAllCollisions()
 				enemy_[i]->pos.y = -500.0f;
 				enemy_[i]->SetWorldTransform(enemy_[i]->pos);
 			}
+
+			/*for (int j = i; j < 8 - dethCount; j++)
+			{
+				enemy_[j] = enemy_[j + 1];
+				if (j == 9 - dethCount)
+				{
+					enemy_[j]->pos.y = -500.0f;
+				}
+			}*/
 		}
 	}
 	// 弾とプレイヤーの判定
@@ -253,6 +297,42 @@ void GameScene::CheckAllCollisions()
 			}
 		}
 	}
+}
+
+void GameScene::ReSet()
+{
+	player_->Initialize(moveCircleRadius, moveCircle);
+
+	// 敵の初期化
+	for (int i = 0; i < 10; i++)
+	{
+		enemy_[i]->Initialize(model_, texture_, i);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		enemyBullet_[i]->Initialize(model_, texture_);
+	}
+
+	for (int i = 0; i < 64; i++) {
+		randObj[i].Initialize();
+		Vector3 pos;
+		pos.x = Random(-50.0f, 50.0f);
+		pos.y = Random(-50.0f, 50.0f);
+		pos.z = Random(-50.0f, 50.0f);
+		randObj[i].translation_ = pos;
+		pos.x = Random(0.0f, 360.0f);
+		pos.y = Random(0.0f, 360.0f);
+		pos.z = Random(0.0f, 360.0f);
+		randObj[i].rotation_ = pos;
+		randObj[i].scale_ = { 0.1f,0.1f,0.1f };
+		randObj[i].MatUpdate();
+	}
+
+	viewProjection_.Initialize();
+
+	camera_->Initialize(player_->GetRadian());
+
+	dethCount = 0;
 }
 
 

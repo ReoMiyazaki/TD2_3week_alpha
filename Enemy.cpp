@@ -17,15 +17,6 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	mt19937_64 engine(seed_gem());
 	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
 	uniform_real_distribution<float> enemyState(0, 3);
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	// ‚»‚ê‚¼‚ê‚Ì‰Šú‰»
-	//	worldTransforms_[i].Initialize();
-	//	worldTransforms_[i].translation_.y = 2.0f * i;
-	//	worldTransforms_[i].rotation_.y = rotDist(engine);
-	//	//	worldTransforms_[i].scale_ = { 2.0f,2.0f,2.0f };
-	//	worldTransforms_[i].MatUpdate();
-	//}
 	
 	// “G‚Ìó‘ÔŽæ“¾
 	state_ = enemyState(engine);
@@ -44,7 +35,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	
 	
 	enemy_.Initialize();
-	enemy_.scale_ = { 2.0f,2.0f,2.0f };
+	enemy_.scale_ = { 1.0f,1.0f,1.0f };
 	enemy_.translation_.y = (enemy_.scale_.y * 2) * i;
 	enemy_.rotation_.y = rotDist(engine);
 	enemy_.MatUpdate();
@@ -74,14 +65,14 @@ void Enemy::Draw(ViewProjection viewProjection)
 void Enemy::DrawDebugText(int i)
 {
 	debugText_->SetPos(50, 100 + 20 * i);
-	//debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
+	debugText_->Printf("eNum[%d]isCollision:%d", i, isCollision_);
 	/*debugText_->SetPos(50, 100 + 20 * i);
 	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);*/
 
-	debugText_->SetPos(50, 250 - 20 * i);
-	debugText_->Printf("state[%d] : %d", i , state);
-	debugText_->SetPos(800, 250 - 20 * i);
-	debugText_->Printf("Count : %d", needleCount_);
+	//debugText_->SetPos(50, 250 - 20 * i);
+	//debugText_->Printf("state[%d] : %d", i , state);
+	//debugText_->SetPos(800, 250 - 20 * i);
+	//debugText_->Printf("Count : %d", needleCount_);
 }
 
 void Enemy::OnCollision()
