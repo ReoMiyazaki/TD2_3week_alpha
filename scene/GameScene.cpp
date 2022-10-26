@@ -87,15 +87,15 @@ void GameScene::Update() {
 		break;
 
 	case Scene::GameScene:
-		if (input_->PushKey(DIK_R))
-		{
-			ReSet();
-		}
+		//if (input_->PushKey(DIK_R))
+		//{
+			//ReSet();
+		//}
 
-		if (input_->PushKey(DIK_Q))
-		{
-			scene_ = Scene::ResultScene;
-		}
+		//if (input_->PushKey(DIK_Q))
+		//{
+			//scene_ = Scene::ResultScene;
+		//}
 
 		player_->Update(moveCircleRadius);
 		camera_->Update(player_->GetRadian(), player_->GetPlayerState());
@@ -119,7 +119,7 @@ void GameScene::Update() {
 		}
 		//デバッグフォント
 		debugText_->SetPos(50, 50);
-		debugText_->Printf("dethCount : %d", dethCount);
+		//debugText_->Printf("dethCount : %d", dethCount);
 
 		if (dethCount > 9)
 		{
@@ -293,7 +293,7 @@ void GameScene::CheckAllCollisions()
 					enemyBullet_[i]->OnCollision();
 					player_->OnCollision_B();
 					debugText_->SetPos(800, 100 + 20 * i);
-					debugText_->Printf("Hit : %d", i);
+					//debugText_->Printf("Hit : %d", i);
 				}
 			}
 		}

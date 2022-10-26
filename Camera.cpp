@@ -117,12 +117,12 @@ void Camera::Draw()
 
 void Camera::DrawDebugText()
 {
-	debugText_->SetPos(800, 20);
-	debugText_->Printf("cameraPos:[%3.2f][%3.2f]", cameraPos.x, cameraPos.z);
-	debugText_->SetPos(800, 40);
-	debugText_->Printf("cameraPosMemory:[%3.2f][%3.2f]", cameraPosMemory.x, cameraPosMemory.z);
-	debugText_->SetPos(800, 60);
-	debugText_->Printf("cameraFlag:[%d]", cameraFlag);
+	//debugText_->SetPos(800, 20);
+	//debugText_->Printf("cameraPos:[%3.2f][%3.2f]", cameraPos.x, cameraPos.z);
+	//debugText_->SetPos(800, 40);
+	//debugText_->Printf("cameraPosMemory:[%3.2f][%3.2f]", cameraPosMemory.x, cameraPosMemory.z);
+	//debugText_->SetPos(800, 60);
+	//debugText_->Printf("cameraFlag:[%d]", cameraFlag);
 	//	debugText_->SetPos(800, 110);
 	//	debugText_->Printf("startCount:[%d]", startCount);
 	//	debugText_->SetPos(800, 130);

@@ -226,14 +226,14 @@ void Player::Draw(ViewProjection viewProjection_)
 
 void Player::DrawDebugText()
 {
-	debugText_->SetPos(50, 20);
-	debugText_->Printf("playerTranslation:[%3.1f][%3.1f][%3.1f]", player_.translation_.x, player_.translation_.y, player_.translation_.z);
-	debugText_->SetPos(50, 40);
-	debugText_->Printf("translationMemory:(%3.2f,%3.2f,%3.2f)", translationMemory.x, translationMemory.y, translationMemory.z);
-	debugText_->SetPos(50, 60);
-	debugText_->Printf("Timer:(%f)", timeRate);
-	debugText_->SetPos(50, 100);
-	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);
+	//debugText_->SetPos(50, 20);
+	//debugText_->Printf("playerTranslation:[%3.1f][%3.1f][%3.1f]", player_.translation_.x, player_.translation_.y, player_.translation_.z);
+	//debugText_->SetPos(50, 40);
+	//debugText_->Printf("translationMemory:(%3.2f,%3.2f,%3.2f)", translationMemory.x, translationMemory.y, translationMemory.z);
+	//debugText_->SetPos(50, 60);
+	//debugText_->Printf("Timer:(%f)", timeRate);
+	//debugText_->SetPos(50, 100);
+	//debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);
 }
 
 void Player::OnCollision()
