@@ -60,7 +60,7 @@ void EnemyBullet::Update(PlayerState state)
 		}
 		else
 		{
-			deleteTimer -= 0.5f;
+			deleteTimer -= 3.0f;
 			if (deleteTimer <= 0.0f)
 			{
 				enemyBullet_.translation_ = { 0.0f,0.0f,0.0f };
@@ -69,7 +69,7 @@ void EnemyBullet::Update(PlayerState state)
 				isFire = 0;
 			}
 		}
-		aliveTimer += 0.5f;
+		aliveTimer += 3.0f;
 		if (aliveTimer >= 300.0f)
 		{
 			enemyBullet_.translation_ = { 0.0f,0.0f,0.0f };
@@ -105,6 +105,8 @@ void EnemyBullet::Draw(ViewProjection viewProjection)
 void EnemyBullet::OnCollision()
 {
 	isCollision_ = true;
+
+	
 }
 
 void EnemyBullet::DrawDebugText()
@@ -129,3 +131,10 @@ Vector3 EnemyBullet::GetWorldPosition()
 
 	return worldPos;
 }
+
+bool EnemyBullet::GetOnCollision()
+{
+	return isCollision_;
+}
+
+

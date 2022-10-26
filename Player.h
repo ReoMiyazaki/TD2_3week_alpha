@@ -52,6 +52,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	void OnCollision();
+	void OnCollision_B();
 
 	float GetRadian()const { return playerRad; }
 

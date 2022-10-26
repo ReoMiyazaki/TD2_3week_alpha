@@ -291,3 +291,17 @@ void Player::OnCollision_(int enemyState, int needleCount)
 	}
 	
 }
+
+void Player::OnCollision_B()
+{
+	isCollision_ = true;
+	if (isCollision_ == true)
+	{
+		startCount = clock();
+		startPoint = player_.translation_;
+		endPoint = translationMemory;
+		midlePoint = { endPoint.x - startPoint.x,startPoint.y * 1.5f,endPoint.z - startPoint.z };
+		midlePoint.y = max(midlePoint.y, 7.5f);
+		state = PlayerState::reflect;
+	}
+}
