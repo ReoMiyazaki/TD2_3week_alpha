@@ -17,7 +17,7 @@ public:
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
 	void Initialize(Model* model, uint32_t textureHandle);
-	void Update(Vector3 moveRadius, PlayerState state);
+	void Update(PlayerState state);
 
 	/// <summary>
 	/// •`‰æˆ—

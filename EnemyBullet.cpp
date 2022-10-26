@@ -13,7 +13,7 @@ void EnemyBullet::Initialize(Model* model, uint32_t textureHandle)
 
 }
 
-void EnemyBullet::Update(Vector3 moveRadius, PlayerState state)
+void EnemyBullet::Update(PlayerState state)
 {
 	float bulletAngle = 0.0f;
 	float bulletS = 0.2f;

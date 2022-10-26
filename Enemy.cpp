@@ -27,9 +27,9 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	//}
 
 	enemy_.Initialize();
-	enemy_.translation_.y = 2.0f * i;
+	enemy_.scale_ = { 2.0f,2.0f,2.0f };
+	enemy_.translation_.y = (enemy_.scale_.y * 2) * i;
 	enemy_.rotation_.y = rotDist(engine);
-	enemy_.scale_ = { 1.0f,1.0f,1.0f };
 	enemy_.MatUpdate();
 
 	// Vector3Œ^‚Ìradiusu‚Éscale_‚Ì’l‚ð“n‚·
