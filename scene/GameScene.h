@@ -65,10 +65,7 @@ class GameScene {
 	Camera* camera_ = nullptr;
 
 	Enemy* enemy_[10] = { nullptr };
-//	Enemy* enemy_ = nullptr;
 	EnemyBullet* enemyBullet_[4] = { nullptr };
-
-//	WorldTransform daruma[10];
 
 	WorldTransform randObj[64];
 	

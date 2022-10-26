@@ -28,7 +28,8 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void UpDate();
+	/// <param name="i">敵キャラの番号</param>
+	void UpDate(int i);
 
 	/// <summary>
 	/// 描画処理
@@ -47,15 +48,11 @@ public:
 	/// <returns></returns>
 	void OnCollision();
 
-	// ワールド座標を取得
-	Vector3 GetWorldPosition(int i);
-
-	// ワールド変換データ
-//	WorldTransform worldTransforms_[10];
-
 	Matrix4 GetMatrix() { return enemy_.matWorld_; };
 
 	WorldTransform GetWorldTransform() { return enemy_; };
+
+	void SetWorldTransform(Vector3 pos);
 
 	// 座標の格納用
 	Vector3 pos = GetWorldTransform().translation_;

@@ -78,7 +78,9 @@
     <ClCompile Include="MathUtility.cpp">
       <Filter>ソースファイル\math</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -183,7 +185,9 @@
     <ClInclude Include="Player.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Terrain.hlsli">
