@@ -44,5 +44,8 @@ private:
 	Vector3 bulletSpeed = { 0.0f,0.0f,0.2f };
 	//フラグ
 	int isFire = 0;
+	//削除タイマー
+	float deleteTimer = 150;
+	float aliveTimer = 0;
 };
 

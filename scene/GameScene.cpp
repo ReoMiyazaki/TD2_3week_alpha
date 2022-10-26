@@ -147,6 +147,7 @@ void GameScene::Draw() {
 	for (int i = 0; i < 4; i++)
 	{
 		enemyBullet_[i]->Draw(viewProjection_);
+		enemyBullet_[i]->DrawDebugText();
 	}
 
 	for (int i = 0; i < 10; i++)

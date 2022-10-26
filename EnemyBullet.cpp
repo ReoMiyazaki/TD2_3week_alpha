@@ -54,6 +54,25 @@ void EnemyBullet::Update(Vector3 moveRadius, PlayerState state)
 				enemyBullet_.translation_ += bulletSpeed;
 			}
 		}
+		else
+		{
+			deleteTimer -= 0.5f;
+			if (deleteTimer <= 0.0f)
+			{
+				enemyBullet_.translation_ = { 0.0f,0.0f,0.0f };
+				deleteTimer = 150.0f;
+				aliveTimer = 0.0f;
+				isFire = 0;
+			}
+		}
+		aliveTimer += 0.5f;
+		if (aliveTimer >= 300.0f)
+		{
+			enemyBullet_.translation_ = { 0.0f,0.0f,0.0f };
+			deleteTimer = 150.0f;
+			aliveTimer = 0.0f;
+			isFire = 0;
+		}
 	}
 	
 	enemyBullet_.MatUpdate();
@@ -83,6 +102,8 @@ void EnemyBullet::DrawDebugText()
 	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
 	debugText_->SetPos(50, 40);
 	debugText_->Printf("Speed:[%f]", bulletSpeed.z);
+	debugText_->SetPos(50, 60);
+	debugText_->Printf("Timer:[%f][%f]", aliveTimer, deleteTimer);
 }
 
 Vector3 EnemyBullet::GetWorldPosition()
