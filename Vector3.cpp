@@ -88,6 +88,11 @@ bool Vector3::operator==(const Vector3 v)
 	return (x == v.x)&&(y == v.y)&&(z == v.z);
 }
 
+const Vector3 Vector3::lerp(const Vector3& start, const Vector3& end, const float Timer)
+{
+	return start * (1.0f - Timer) + end * Timer;
+}
+
 // 2項演算子オーバーロード
 // ※いろんな引数のパターンに対応するため、以下のように準備している
 const Vector3 operator+(const Vector3& v1, const Vector3& v2)

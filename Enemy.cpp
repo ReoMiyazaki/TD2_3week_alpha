@@ -44,7 +44,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, int i)
 	
 	
 	enemy_.Initialize();
-	enemy_.scale_ = { 2.0f,2.0f,2.0f };
+	enemy_.scale_ = { 1.0f,1.0f,1.0f };
 	enemy_.translation_.y = (enemy_.scale_.y * 2) * i;
 	enemy_.rotation_.y = rotDist(engine);
 	enemy_.MatUpdate();
@@ -78,10 +78,10 @@ void Enemy::DrawDebugText(int i)
 	/*debugText_->SetPos(50, 100 + 20 * i);
 	debugText_->Printf("eNum[%d]pos.y:%3.5f", i, pos.y);*/
 
-	debugText_->SetPos(50, 250 - 20 * i);
+	/*debugText_->SetPos(50, 250 - 20 * i);
 	debugText_->Printf("state[%d] : %d", i , state);
 	debugText_->SetPos(800, 250 - 20 * i);
-	debugText_->Printf("Count : %d", needleCount_);
+	debugText_->Printf("Count : %d", needleCount_);*/
 }
 
 void Enemy::OnCollision()

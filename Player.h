@@ -11,7 +11,8 @@ enum class PlayerState {
 	Idle,
 	Charge,
 	Jump,
-	dash
+	dash,
+	reflect
 };
 
 class Player
@@ -75,6 +76,7 @@ public:
 
 	bool IsCollision() { return isCollision_; }
 
+
 private:
 	WorldTransform player_;
 	WorldTransform playerMoveLine[64];
@@ -92,6 +94,7 @@ private:
 	Vector3 playerPosition;
 	Vector3 afterPos;
 	Vector3 dashSpeed;
+	float rotSpeed;
 
 	int dashTime = 50;
 
@@ -100,13 +103,15 @@ private:
 	Vector3 translationMemory;
 	// あたり判定
 	bool isCollision_ = false;
-
-
 	//ベジエ曲線用
-	Vector3 startPoint;	//スタート地点
-	Vector3 endPoint;	//終了地点
-	Vector3 whilePoint;	//中間地点
-	float startTimer;	//開始時刻
-	float nowTimer;		//現在時刻
-	float endTimer;		//終了時刻
+	const Vector3 lerp(const Vector3 start, const Vector3 end, const float Timer);
+	long long startCount = 0;
+	long long nowCount = 0;
+	long long elapsedCount = 0;
+
+	Vector3 startPoint; // スタート
+	Vector3 endPoint;	// エンド
+	Vector3 midlePoint;	// 中間
+	float maxTimer = 1.0f;
+	float timeRate;
 };

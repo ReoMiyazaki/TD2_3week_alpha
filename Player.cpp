@@ -34,12 +34,11 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 	// Vector3型のradiusuにscale_の値を渡す
 	radiusu = player_.scale_;
 	
-	nowTimer = 0.0f;
-	endTimer = 5.0f;
+	rotSpeed = 5.0f;
 }
 
 void Player::Update(float moveCircleRadius)
-{
+{	
 	// ステートがアイドルなら
 	if (state == PlayerState::Idle)
 	{
@@ -151,7 +150,7 @@ void Player::Update(float moveCircleRadius)
 		player_.translation_.x += dashSpeed.x;
 		player_.translation_.z += dashSpeed.z;
 
-		player_.rotation_.z += 0.5f;
+		player_.rotation_.z += rotSpeed;
 
 		//自機の平行移動量がスペースキー押下時に設定した移動後座標なら移動終了。落下フェーズへ
 		if (static_cast<int>(player_.translation_.x) == static_cast<int>(afterPos.x) &&
@@ -168,7 +167,6 @@ void Player::Update(float moveCircleRadius)
 			state = PlayerState::Jump;
 			jumpPower = 0.0f;
 		}
-
 		if (player_.translation_.z == translationMemory.z)
 		{
 			state = PlayerState::Jump;
@@ -197,6 +195,24 @@ void Player::Update(float moveCircleRadius)
 		
 	}
 
+	else if (state == PlayerState::reflect)
+	{
+		player_.rotation_.x -= 0.5f;
+		nowCount = clock();
+		elapsedCount = nowCount - startCount;
+		float elapsedTime = static_cast<float>(elapsedCount) / 1'000.0f;
+
+		timeRate = min(elapsedTime / maxTimer, 1.0f);
+		Vector3 p1 = lerp(startPoint, midlePoint, timeRate);
+		Vector3 p2 = lerp(midlePoint, endPoint, timeRate);
+
+		player_.translation_ = lerp(p1, p2, timeRate);
+		if (timeRate == 1.0f)
+		{
+			player_.rotation_ = { 0.0f,0.0f,0.0f };
+			state = PlayerState::Idle;
+		}
+	}
 	player_.MatUpdate();
 
 }
@@ -223,14 +239,14 @@ void Player::Draw(ViewProjection viewProjection_)
 
 void Player::DrawDebugText()
 {
-	/*debugText_->SetPos(50, 20);
+	debugText_->SetPos(50, 20);
 	debugText_->Printf("playerTranslation:[%3.1f][%3.1f][%3.1f]", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 40);
-	debugText_->Printf("translationMemory:(%3.2f,%3.2f,%3.2f)", translationMemory.x, translationMemory.y, translationMemory.z);*/
-	/*debugText_->SetPos(50, 60);
-	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
+	debugText_->Printf("translationMemory:(%3.2f,%3.2f,%3.2f)", translationMemory.x, translationMemory.y, translationMemory.z);
+	debugText_->SetPos(50, 60);
+	debugText_->Printf("Timer:(%f)", timeRate);
 	debugText_->SetPos(50, 100);
-	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);*/
+	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);
 }
 
 void Player::OnCollision()
@@ -251,19 +267,23 @@ Vector3 Player::GetWorldPosition()
 	return worldPos;
 }
 
+const Vector3 Player::lerp(const Vector3 start, const Vector3 end, const float Timer)
+{
+		return start * (1.0f - Timer) + end * Timer;
+}
+
 void Player::OnCollision_(int enemyState, int needleCount)
 {
 	isCollision_ = true;
 	if (enemyState == 1 && needleCount < 2 && isCollision_ == true)
 	{	
-		//スタート,エンド,中間を取得
+		startCount = clock();
 		startPoint = player_.translation_;
 		endPoint = translationMemory;
-		whilePoint = { (startPoint.x - endPoint.x) / 2,startPoint.y + startPoint.y / 2,startPoint.z - endPoint.z };
-		//タイマーのカウントを開始
-		
+		midlePoint = { endPoint.x - startPoint.x,startPoint.y * 1.5f,endPoint.z - startPoint.z };
+		midlePoint.y = max(midlePoint.y, 7.5f);
+		state = PlayerState::reflect;
 		// 弾く
-		dashSpeed = -dashSpeed;
 		if (needleCount == 2)
 		{
 			isCollision_ = false;

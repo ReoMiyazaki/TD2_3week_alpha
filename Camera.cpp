@@ -84,6 +84,10 @@ void Camera::Update(float playerRadius, PlayerState state)
 		//カメラの角度はデフォルト
 		cameraRad = playerRadius + 30.0f;
 	}
+	else if (state == PlayerState::reflect)
+	{
+		timeRate = 1.0f;
+	}
 
 	//cameraRad = fmodf(cameraRad, 360.0f);
 
