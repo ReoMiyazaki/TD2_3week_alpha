@@ -24,7 +24,6 @@ void Camera::Initialize(float playerRadius)
 	endCount = 0;
 
 	maxTime = 2.0f;
-	startCount = 0;
 	//------------ イージング関係 -------------------//
 	cameraFlag = false;
 }

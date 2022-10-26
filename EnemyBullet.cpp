@@ -109,12 +109,12 @@ void EnemyBullet::OnCollision()
 
 void EnemyBullet::DrawDebugText()
 {
-	debugText_->SetPos(500, 20);
+	/*debugText_->SetPos(500, 20);
 	debugText_->Printf("bulletPos[%3.2f][%3.2f][%3.2f]", enemyBullet_.translation_.x, enemyBullet_.translation_.y, enemyBullet_.translation_.z);
 	debugText_->SetPos(50, 40);
 	debugText_->Printf("Speed:[%f]", bulletSpeed.z);
 	debugText_->SetPos(50, 60);
-	debugText_->Printf("Timer:[%f][%f]", aliveTimer, deleteTimer);
+	debugText_->Printf("Timer:[%f][%f]", aliveTimer, deleteTimer);*/
 }
 
 Vector3 EnemyBullet::GetWorldPosition()

@@ -9,9 +9,9 @@
 
 enum class State { //敵の状態
 
-	needle, // 針	0
-	normal, // 普通	1
-	cole	// コア	2
+	normal,		// 普通	0
+	needle,		// 殻	1
+	cole		// コア	2
 };
 
 class Enemy
@@ -53,10 +53,11 @@ public:
 	// ワールド変換データ
 //	WorldTransform worldTransforms_[10];
 
-	Matrix4 GetMatrix() { return enemy_.matWorld_; };
+	Matrix4 GetMatrix() { return enemy_.matWorld_; }
 
-	WorldTransform GetWorldTransform() { return enemy_; };
+	WorldTransform GetWorldTransform() { return enemy_; }
 
+	State GetState() { return state; }
 	// 座標の格納用
 	Vector3 pos = GetWorldTransform().translation_;
 
@@ -68,7 +69,9 @@ public:
 	Vector3 downCollision;
 
 	bool IsCollision() { return isCollision_; }
-
+	int GetState_() { return state_; }
+	int GetCount() { return needleCount_; }
+	
 private:
 	WorldTransform enemy_;
 	// モデル
@@ -81,5 +84,8 @@ private:
 	bool isCollision_ = false;
 
 	State state;
+	
+	int state_;
+	int needleCount_;
 };
 

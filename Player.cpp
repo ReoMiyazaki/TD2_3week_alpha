@@ -1,4 +1,5 @@
 #include "Player.h"
+#include<time.h>
 
 using namespace MathUtility;
 
@@ -32,6 +33,9 @@ void Player::Initialize(float moveCircleRadius, Vector2 moveCircle)
 
 	// Vector3型のradiusuにscale_の値を渡す
 	radiusu = player_.scale_;
+	
+	nowTimer = 0.0f;
+	endTimer = 5.0f;
 }
 
 void Player::Update(float moveCircleRadius)
@@ -94,6 +98,9 @@ void Player::Update(float moveCircleRadius)
 		// チャージされたジャンプ力でジャンプ
 		player_.translation_.y += jumpPower;
 		jumpPower--;
+		translationMemory.x = player_.translation_.x;
+		translationMemory.y = 0.0f;
+		translationMemory.z = player_.translation_.z;
 		// 高さが0以下になったらアイドルに戻る
 		if (player_.translation_.y <= 0) {
 			player_.translation_.y = 0;
@@ -160,6 +167,11 @@ void Player::Update(float moveCircleRadius)
 			jumpPower = 0.0f;
 		}
 
+		if (player_.translation_.z == translationMemory.z)
+		{
+			state = PlayerState::Jump;
+			jumpPower = 0.0f;
+		}
 		/*if (player_.translation_.x >= afterPos.x && player_.translation_.z >= afterPos.z ||
 			player_.translation_.x >= afterPos.x && afterPos.z >= player_.translation_.z ||
 			afterPos.x >= player_.translation_.x && player_.translation_.z >= afterPos.z ||
@@ -179,6 +191,8 @@ void Player::Update(float moveCircleRadius)
 
 		upCollision = { pos.x + radiusu.x, pos.y + radiusu.y, pos.z + radiusu.z };
 		downCollision = { pos.x - radiusu.x, pos.y - radiusu.y, pos.z - radiusu.z };
+
+		
 	}
 
 	player_.MatUpdate();
@@ -207,14 +221,14 @@ void Player::Draw(ViewProjection viewProjection_)
 
 void Player::DrawDebugText()
 {
-	debugText_->SetPos(50, 20);
-	debugText_->Printf("playerRad:%3.1f", playerRad);
+	/*debugText_->SetPos(50, 20);
+	debugText_->Printf("playerTranslation:[%3.1f][%3.1f][%3.1f]", player_.translation_.x, player_.translation_.y, player_.translation_.z);
 	debugText_->SetPos(50, 40);
-	debugText_->Printf("playerPos:(%3.2f,%3.2f,%3.2f)", player_.translation_.x, player_.translation_.y, player_.translation_.z);
-	debugText_->SetPos(50, 60);
+	debugText_->Printf("translationMemory:(%3.2f,%3.2f,%3.2f)", translationMemory.x, translationMemory.y, translationMemory.z);*/
+	/*debugText_->SetPos(50, 60);
 	debugText_->Printf("afterPos:(%3.2f,%3.2f,%3.2f)", afterPos.x, afterPos.y, afterPos.z);
 	debugText_->SetPos(50, 100);
-	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);
+	debugText_->Printf("pos - afterpos:(%d,%d,%d)", player_.translation_.x - afterPos.x, 0, player_.translation_.z - afterPos.z);*/
 }
 
 Vector3 Player::GetWorldPosition()
@@ -228,4 +242,25 @@ Vector3 Player::GetWorldPosition()
 	worldPos.z = player_.matWorld_.m[3][2];
 
 	return worldPos;
+}
+
+void Player::OnCollision(int enemyState, int needleCount)
+{
+	isCollision_ = true;
+	if (enemyState == 1 && needleCount < 2 && isCollision_ == true)
+	{	
+		//スタート,エンド,中間を取得
+		startPoint = player_.translation_;
+		endPoint = translationMemory;
+		whilePoint = { (startPoint.x - endPoint.x) / 2,startPoint.y + startPoint.y / 2,startPoint.z - endPoint.z };
+		//タイマーのカウントを開始
+		
+		// 弾く
+		dashSpeed = -dashSpeed;
+		if (needleCount == 2)
+		{
+			isCollision_ = false;
+		}
+	}
+	
 }

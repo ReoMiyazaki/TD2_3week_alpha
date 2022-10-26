@@ -5,6 +5,7 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "DebugText.h"
+#include "Enemy.h"
 
 enum class PlayerState {
 	Idle,
@@ -28,6 +29,13 @@ public:
 	/// </summary>
 	/// <param name="moveCircleRadius"></param>
 	void Update(float moveCircleRadius);
+
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	/// <returns></returns>
+	void OnCollision(int enemyState,int needleCount);
+
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -81,4 +89,16 @@ private:
 
 	float kMoveSpeed = 4.0f;
 
+	Vector3 translationMemory;
+	// あたり判定
+	bool isCollision_ = false;
+
+
+	//ベジエ曲線用
+	Vector3 startPoint;	//スタート地点
+	Vector3 endPoint;	//終了地点
+	Vector3 whilePoint;	//中間地点
+	float startTimer;	//開始時刻
+	float nowTimer;		//現在時刻
+	float endTimer;		//終了時刻
 };

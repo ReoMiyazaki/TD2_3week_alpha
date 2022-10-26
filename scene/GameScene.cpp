@@ -142,7 +142,7 @@ void GameScene::Draw() {
 
 
 	player_->Draw(viewProjection_);
-//	player_->DrawDebugText();
+	player_->DrawDebugText();
 	camera_->Draw();
 	for (int i = 0; i < 4; i++)
 	{
@@ -153,7 +153,7 @@ void GameScene::Draw() {
 	for (int i = 0; i < 10; i++)
 	{
 		enemy_[i]->Draw(viewProjection_);
-		//		enemy_[i]->DrawDebugText(i);
+		enemy_[i]->DrawDebugText(i);
 	}
 
 	for (int i = 0; i < 64; i++) {
@@ -284,7 +284,7 @@ void GameScene::CheckAllCollisions()
 	//}
 #pragma endregion
 
-
+	// プレイヤーと敵の判定
 	for (int i = 0; i < 10; i++)
 	{
 		if (player_->upCollision.x > enemy_[i]->downCollision.x && player_->downCollision.x < enemy_[i]->upCollision.x)
@@ -294,13 +294,12 @@ void GameScene::CheckAllCollisions()
 				if (player_->upCollision.y > enemy_[i]->downCollision.y && player_->downCollision.y < enemy_[i]->upCollision.y)
 				{
 					enemy_[i]->OnCollision();
-					debugText_->SetPos(800, 100 + 20 * i);
-					debugText_->Printf("Hit : %d",i);
+					player_->OnCollision(enemy_[i]->GetState_(), enemy_[i]->GetCount());
 				}
 			}
 		}
 	}
-
+	// 弾とプレイヤーの判定
 	for (int i = 0; i < 4; i++)
 	{
 		if (player_->upCollision.x > enemyBullet_[i]->downCollision.x && player_->downCollision.x < enemyBullet_[i]->upCollision.x)
