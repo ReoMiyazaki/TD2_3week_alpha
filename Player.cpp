@@ -292,3 +292,32 @@ void Player::OnCollision_B()
 		state = PlayerState::reflect;
 	}
 }
+
+void Player::ReSet(float moveCircleRadius, Vector2 moveCircle)
+{
+	player_.scale_ = { 1.0f, 1.0f, 1.0f };
+
+	player_.Initialize();
+	playerRad = 0;
+
+	// プレイヤーの行動円
+	for (int i = 0; i < 64; i++)
+	{
+		playerMoveLine[i].Initialize();
+		float rad = 360.0f / 64.0f * i;
+		moveCircle.x = sin(PI / 180 * rad) * moveCircleRadius;
+		moveCircle.y = cos(PI / 180 * rad) * moveCircleRadius;
+		Vector3 pos;
+		pos.x = moveCircle.x;
+		pos.z = moveCircle.y;
+		pos.y = 0;
+		playerMoveLine[i].translation_ = pos;
+		playerMoveLine[i].scale_ = { 0.1f,0.1f,0.1f };
+		playerMoveLine[i].MatUpdate();
+	}
+
+	// Vector3型のradiusuにscale_の値を渡す
+	radiusu = player_.scale_;
+
+	rotSpeed = 5.0f;
+}

@@ -100,3 +100,41 @@ void Enemy::SetWorldTransform(Vector3 pos)
 {
 	enemy_.translation_ = pos;
 }
+
+void Enemy::ReSet(int i)
+{
+	// —”éŒ¾
+	random_device seed_gem;
+	mt19937_64 engine(seed_gem());
+	uniform_real_distribution<float> rotDist(0.0f, 360.0f);
+	uniform_real_distribution<float> enemyState(0, 3);
+
+	// “G‚Ìó‘Ôæ“¾
+	state_ = enemyState(engine);
+	if (state_ == 0)
+	{
+		state = State::normal;
+	}
+	if (state_ == 1)
+	{
+		state = State::needle;
+	}
+	if (state_ == 2)
+	{
+		state = State::cole;
+	}
+
+
+	enemy_.Initialize();
+	enemy_.scale_ = { 1.0f,1.0f,1.0f };
+	enemy_.translation_.y = (enemy_.scale_.y * 2) * i;
+	enemy_.rotation_.y = rotDist(engine);
+	enemy_.MatUpdate();
+
+	// Vector3Œ^‚Ìradiusu‚Éscale_‚Ì’l‚ğ“n‚·
+	radiusu = enemy_.scale_;
+
+	isCollision_ = false;
+
+	needleCount_ = 0;
+}
