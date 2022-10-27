@@ -273,9 +273,9 @@ void GameScene::CheckAllCollisions()
 				for (int j = i; j < 9 - dethCount; j++)
 				{
 					enemy_[j] = enemy_[j + 1];
-					if (j == 9 - dethCount)
+					if (j == 9 - dethCount-1)
 					{
-						enemy_[j-1]->pos.y = -500.0f;
+						enemy_[j]->pos.y = -500.0f;
 					}
 				}
 				dethCount++;
@@ -310,10 +310,12 @@ void GameScene::ReSet()
 	// 敵の初期化
 	for (int i = 0; i < 10; i++)
 	{
+		enemy_[i] = new Enemy();
 		enemy_[i]->Initialize(model_, texture_, i);
 	}
 	for (int i = 0; i < 4; i++)
 	{
+		enemyBullet_[i] = new EnemyBullet();
 		enemyBullet_[i]->Initialize(model_, texture_);
 	}
 
