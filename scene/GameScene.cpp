@@ -84,18 +84,19 @@ void GameScene::Update() {
 	{
 	case Scene::TitleScene:
 		titleSclene_->Update(scene_);
+		ReSet();
 		break;
 
 	case Scene::GameScene:
-		//if (input_->PushKey(DIK_R))
-		//{
-			//ReSet();
-		//}
+		if (input_->PushKey(DIK_R))
+		{
+			ReSet();
+		}
 
-		//if (input_->PushKey(DIK_Q))
-		//{
-			//scene_ = Scene::ResultScene;
-		//}
+		if (input_->PushKey(DIK_Q))
+		{
+			scene_ = Scene::ResultScene;
+		}
 
 		player_->Update(moveCircleRadius);
 		camera_->Update(player_->GetRadian(), player_->GetPlayerState());
@@ -195,7 +196,6 @@ void GameScene::Draw() {
 		break;
 
 	case Scene::ResultScene:
-		//ReSet();
 		break;
 	}
 
@@ -254,14 +254,14 @@ void GameScene::CheckAllCollisions()
 					{
 						enemy_[i]->OnCollision();
 						player_->OnCollision_(enemy_[i]->GetState_(), enemy_[i]->GetCount());
-						dethCount++;
+
 					}
 				}
 			}
 
 			if (enemy_[i]->IsCollision() == true && player_->IsCollision() == true)
 			{
-				for (int j = 9; i < j; j--)
+				for (int j = 9 - dethCount; i < j; j--)
 				{
 					enemy_[j]->pos.y = enemy_[j - 1]->pos.y;
 					enemy_[j]->SetWorldTransform(enemy_[j]->pos);
@@ -269,16 +269,19 @@ void GameScene::CheckAllCollisions()
 				}
 				enemy_[i]->pos.y = -500.0f;
 				enemy_[i]->SetWorldTransform(enemy_[i]->pos);
+
+				for (int j = i; j < 9 - dethCount; j++)
+				{
+					enemy_[j] = enemy_[j + 1];
+					if (j == 9 - dethCount)
+					{
+						enemy_[j-1]->pos.y = -500.0f;
+					}
+				}
+				dethCount++;
 			}
 
-			/*for (int j = i; j < 8 - dethCount; j++)
-			{
-				enemy_[j] = enemy_[j + 1];
-				if (j == 9 - dethCount)
-				{
-					enemy_[j]->pos.y = -500.0f;
-				}
-			}*/
+
 		}
 	}
 	// 弾とプレイヤーの判定
