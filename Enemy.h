@@ -48,6 +48,8 @@ public:
 	/// <returns></returns>
 	void OnCollision();
 
+	void ReSet(int i);
+
 	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
 	Vector3 GetWorldPosition(int i);
 

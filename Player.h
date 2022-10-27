@@ -54,6 +54,8 @@ public:
 	void OnCollision();
 	void OnCollision_B();
 
+	void ReSet(float moveCircleRadius, Vector2 moveCircle);
+
 	float GetRadian()const { return playerRad; }
 
 	// ワールド座標を取得

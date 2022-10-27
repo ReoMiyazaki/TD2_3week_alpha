@@ -195,7 +195,7 @@ void GameScene::Draw() {
 		break;
 
 	case Scene::ResultScene:
-		ReSet();
+		//ReSet();
 		break;
 	}
 
