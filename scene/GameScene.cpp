@@ -305,7 +305,7 @@ void GameScene::CheckAllCollisions()
 
 void GameScene::ReSet()
 {
-	player_->Initialize(moveCircleRadius, moveCircle);
+	player_->ReSet(moveCircleRadius, moveCircle);
 
 	// 敵の初期化
 	for (int i = 0; i < 10; i++)
